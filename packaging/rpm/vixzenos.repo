@@ -1,0 +1,11 @@
+[vixzenos]
+name=VixzenOS Updates
+baseurl=https://copr.fedorainfracloud.org/groups/vixzen/vixzenos/fedora-44-x86_64/
+enabled=1
+repo_gpgcheck=1
+gpgcheck=0
+gpgkey=https://copr.fedorainfracloud.org/groups/vixzen/vixzenos/fedora-44-x86_64/repo.gpg
+metadata_expire=6h
+# VixzenOS packages replace the bundled copies; keep them from being
+# overwritten by the base channel.
+priority=90

@@ -1,0 +1,13 @@
+#!/bin/bash
+# vixzen-blink launcher (EXPERIMENTAL Blink build).
+HERE="$(cd "$(dirname "$0")" && pwd)"
+CANDIDATES=(
+  "$HERE/vixzen_blink.py"
+  "$HOME/.local/share/vixzen-blink/vixzen_blink.py"
+  "/usr/share/vixzen/blink/vixzen_blink.py"
+)
+for c in "${CANDIDATES[@]}"; do
+  if [ -f "$c" ]; then exec python3 "$c" "$@"; fi
+done
+echo "vixzen-blink: app not found. Run scripts/install-blink.sh" >&2
+exit 1

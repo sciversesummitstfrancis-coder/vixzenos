@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Vixzen Web
+Comment=Lightweight native web browser
+Exec=python3 /usr/share/vixzen/web/vixzen_web.py
+Icon=org.gnome.Epiphany
+Type=Application
+Categories=Network;WebBrowser;
+StartupWMClass=vixzen_web

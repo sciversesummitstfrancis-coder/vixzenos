@@ -1,0 +1,5 @@
+# Vendored third-party look (all unmodified, GPL, upstream LICENSEs kept
+# where shipped): WhiteSur-gtk-theme (WhiteSur-Dark-blue, 5 MB),
+# WhiteSur-icon-theme (WhiteSur-dark, 57 MB), WhiteSur-wallpapers
+# (3x 1080p), McMojave/WhiteSur cursors under assets/cursors/.
+# Upstream: https://github.com/vinceliuice -- remove a dir to drop it.

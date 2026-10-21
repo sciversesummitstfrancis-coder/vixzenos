@@ -1,0 +1,55 @@
+/* VixzenOS GTK override — NEON SURGE. Layered AFTER vixzen-gtk-dark.css
+ * (same selectors, later wins). Swaps indigo accents for neon green.
+ * Deployed by scripts/vixzen-gtk-theme.sh --apply --accent neon. */
+
+@define-color accent_bg_color #00E676;
+@define-color accent_fg_color #04120A;
+@define-color accent_color #00E676;
+
+window.csd {
+  box-shadow: 0 0 0 1px rgba(0,230,118,0.55),
+              0 0 28px rgba(0,230,118,0.30),
+              0 18px 50px rgba(0,0,0,0.55);
+}
+tooltip {
+  border-color: #00A651;
+}
+.sidebar row:selected {
+  border-left-color: #00E676;
+  background-color: rgba(0,230,118,0.16);
+  box-shadow: 0 0 14px rgba(0,230,118,0.30);
+}
+nautilus-window .sidebar row:selected {
+  background-color: rgba(0,230,118,0.22);
+  box-shadow: inset 0 0 0 1px rgba(0,230,118,0.55);
+}
+nautilus-window gridview > child:selected,
+nautilus-window iconview > child:selected {
+  background-color: rgba(0,230,118,0.22);
+  box-shadow: 0 0 16px rgba(0,230,118,0.35);
+}
+nautilus-window headerbar {
+  border-bottom-color: #00A651;
+}
+nautilus-window searchentry:focus {
+  border-color: #00E676;
+  box-shadow: 0 0 12px rgba(0,230,118,0.45);
+}
+button.suggested-action {
+  background-color: #00E676;
+  color: #04120A;
+  box-shadow: 0 0 14px rgba(0,230,118,0.45);
+}
+switch:checked {
+  background-color: #00E676;
+}
+check:checked, radio:checked {
+  background-color: #00E676;
+  color: #04120A;
+}
+progressbar > trough > progress {
+  background-color: #00E676;
+}
+scale highlight {
+  background-color: #00E676;
+}

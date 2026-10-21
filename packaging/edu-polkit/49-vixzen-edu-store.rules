@@ -1,0 +1,11 @@
+// Vixzen Edu: only admin users (wheel) may install/update/remove software.
+// Students get an auth dialog they cannot satisfy. Admin unlocks the store
+// via Vixzen Settings ("School Admin"), which removes this file.
+polkit.addRule(function(action, subject) {
+    if (action.id.indexOf("org.freedesktop.packagekit.") === 0) {
+        if (subject.isInGroup("wheel")) {
+            return polkit.Result.YES;
+        }
+        return polkit.Result.NO;
+    }
+});

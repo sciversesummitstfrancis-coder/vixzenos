@@ -1,0 +1,22 @@
+# VixzenOS shared macros for every VixzenOS package.
+%global vix_name VixzenOS
+%global vix_base vixzenos
+%global vix_license GPL-3.0-or-later
+%global vix_url https://github.com/vixzen/vixzenos
+%global vix_builddate %{?dist}
+%global vix_arch %{_arch}
+%global _binaries_in_noarch_packages_terminate_build 0
+%global debug_package %{nil}
+%global __brp_mangle_shebangs %{nil}
+
+%define vix_install() \
+install -d -m 0755 %{buildroot}%{_prefix} \
+install -d -m 0755 %{buildroot}/usr/share/vixzen
+
+# Common metadata block
+%global vix_meta \
+Name: %{vix_name} \
+Summary: VixzenOS %{name} \
+License: %{vix_license} \
+URL: %{vix_url} \
+BuildArch: noarch

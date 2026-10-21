@@ -1,0 +1,15 @@
+#!/bin/bash
+# vixzen-web launcher — finds the app next to any checkout or system install.
+HERE="$(cd "$(dirname "$0")" && pwd)"
+CANDIDATES=(
+  "$HERE/vixzen_web.py"
+  "$HERE/../vixzenos/apps/web-browser/vixzen_web.py"
+  "$HOME/Documents/Default Project/vixzenos/apps/web-browser/vixzen_web.py"
+  "/usr/share/vixzen/web/vixzen_web.py"
+  "$HOME/.local/share/vixzen-web/vixzen_web.py"
+)
+for c in "${CANDIDATES[@]}"; do
+  if [ -f "$c" ]; then exec python3 "$c" "$@"; fi
+done
+echo "vixzen-web: app not found. Reinstall or run scripts/install-web.sh" >&2
+exit 1

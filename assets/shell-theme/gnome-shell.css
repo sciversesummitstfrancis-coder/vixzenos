@@ -1,0 +1,67 @@
+/* Vixzen Shell theme — original Vixzen identity over stock GNOME.
+ * Top bar goes Vixzen dark, interactive accents go brand indigo.
+ * Revert: disable the user-theme extension or switch theme back to default.
+ */
+@import url("resource:///org/gnome/shell/theme/gnome-shell.css");
+
+/* Top bar: Vixzen glass — frosted translucency over the wallpaper.
+ * NOTE: shell CSS reloads on next login; staged for then. */
+#panel {
+  background-color: rgba(18, 20, 28, 0.62);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  font-weight: bold;
+}
+#panel .panel-button {
+  color: #E8EAF2;
+  border-radius: 10px;
+}
+#panel .panel-button:hover, #panel .panel-button:overview {
+  background-color: rgba(124, 124, 255, 0.22);
+  box-shadow: inset 0 -2px 0 #7C7CFF;
+}
+#panel .panel-button:active, #panel .panel-button:checked {
+  background-color: rgba(124, 124, 255, 0.32);
+  box-shadow: inset 0 -2px 0 #7C7CFF;
+}
+
+/* Brand indigo on controls, calendar, toggles */
+.toggle-switch:checked { background-color: #4F46E5; }
+.slider { -slider-active-background-color: #7C7CFF; }
+.calendar-today {
+  background-color: #4F46E5;
+  border: none;
+  font-weight: bold;
+}
+.calendar-day-with-events { color: #22D3EE; }
+.button:selected, .button:active { background-color: rgba(124, 124, 255, 0.3); }
+.search-entry:focus { border-color: #7C7CFF; }
+.workspace-thumbnail-indicator { border-color: #7C7CFF; }
+.modal-dialog-button:default, .notification-button:default {
+  background-color: #4F46E5;
+  color: #FFFFFF;
+}
+/* Overview app grid folders + dash search pick up the accent */
+.app-folder-dialog .folder-name-container .folder-name-entry:focus { border-color: #7C7CFF; }
+
+/* Notifications: glass banners, glowing titles (selectors verified GNOME 50) */
+.message {
+  background-color: rgba(27, 30, 42, 0.96);
+  border: 1px solid rgba(124, 124, 255, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+.message-title { color: #FFFFFF; font-weight: bold; }
+.message-content { color: #E8EAF2; }
+.message-header { color: #9AA0B5; }
+.message-list { spacing: 10px; }
+.message-box { spacing: 8px; }
+
+/* Quick settings: rounded tiles, indigo on-state */
+.quick-settings { spacing: 12px; }
+.quick-toggle { border-radius: 12px; }
+.quick-toggle:checked { background-color: #4F46E5; color: #FFFFFF; }
+.quick-toggle-menu { border-radius: 14px; }
+
+/* Calendar event rows match the sidebar tab language */
+.events-button { border-radius: 10px; }
+.events-button:hover { background-color: rgba(124, 124, 255, 0.22); }

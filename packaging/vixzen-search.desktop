@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Vixzen Search
+Comment=Search apps, settings and files across the system
+Exec=python3 "/home/shonshyjo/Documents/Default Project/vixzenos/apps/power-menu/vixzen_power.py"
+Icon=/home/shonshyjo/Documents/Default Project/vixzenos/assets/icons/vixzen-search.svg
+Terminal=false
+Type=Application
+Categories=System;
+Keywords=vixzen;search;find;apps;

@@ -1,0 +1,4 @@
+# Vendored cursor theme: McMojave (GPL-3.0, see McMojave.COPYING)
+# Upstream: https://github.com/vinceliuice/McMojave-cursors
+# Shipped unmodified (dist/ as released) for the macOS-style pointer.
+# Remove this directory to drop the dependency (revert = one rm + rebuild).

@@ -1,0 +1,33 @@
+# Build artifacts (huge — never commit)
+build/
+*.iso
+*.img
+*.qcow2
+
+# RPM build output (regenerate with scripts/vixzen-rpm-build.sh)
+packaging/rpm/out/
+packaging/rpm/build/
+packaging/rpm/SOURCES/
+
+# Logs
+*.log
+program.log
+livemedia.log
+virt-install.log
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Local state
+*.corrupt-bak
+
+# Generated icon caches
+icon-theme.cache

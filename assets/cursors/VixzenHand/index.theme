@@ -1,0 +1,4 @@
+[Icon Theme]
+Name=VixzenHand
+Comment=Vixzen glove pointer (main arrow); falls back to McMojave
+Inherits=McMojave

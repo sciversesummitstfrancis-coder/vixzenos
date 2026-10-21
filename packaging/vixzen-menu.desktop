@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Vixzen
+Comment=VixzenOS power menu — Suspend, Restart, Power Off, Log Out
+Exec=python3 "/home/shonshyjo/Documents/Default Project/vixzenos/apps/power-menu/vixzen_power.py"
+Icon=/home/shonshyjo/Documents/Default Project/vixzenos/assets/branding/logo.svg
+Terminal=false
+Type=Application
+Categories=System;
+Keywords=vixzen;power;suspend;shutdown;restart;logout;

@@ -1,0 +1,147 @@
+/* VixzenOS GTK4 rework — DARK. Replaces stock/Fluent styling for every
+ * GTK4 + Libadwaita app (Files, Settings, Software…). Backup lives in
+ * ~/.config/vixzen/gtk-theme.backup. Revert: restore the symlinks. */
+
+/* --- Libadwaita palette: the real lever. Every Adw app follows these. --- */
+@define-color accent_bg_color #7C7CFF;
+@define-color accent_fg_color #0B0C12;
+@define-color accent_color #7C7CFF;
+@define-color destructive_bg_color #FF7A90;
+@define-color success_bg_color #34D399;
+@define-color warning_bg_color #FBBF24;
+@define-color window_bg_color #12141C;
+@define-color window_fg_color #E8EAF2;
+@define-color view_bg_color #171A26;
+@define-color view_fg_color #E8EAF2;
+@define-color headerbar_bg_color #1B1E2A;
+@define-color headerbar_fg_color #E8EAF2;
+@define-color sidebar_bg_color #1B1E2A;
+@define-color sidebar_fg_color #E8EAF2;
+@define-color card_bg_color #1E2230;
+@define-color card_fg_color #E8EAF2;
+@define-color popover_bg_color #232738;
+@define-color popover_fg_color #E8EAF2;
+@define-color borders #2E3448;
+@define-color headerbar_border_color #2E3448;
+
+/* --- Vixzen signature: focused windows wear an indigo halo.
+ * No stock GNOME theme does this — it is the Vixzen tell. --- */
+window.csd {
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(124,124,255,0.55),
+              0 0 28px rgba(124,124,255,0.30),
+              0 18px 50px rgba(0,0,0,0.55);
+}
+window.csd:backdrop {
+  box-shadow: 0 0 0 1px #2E3448,
+              0 12px 32px rgba(0,0,0,0.45);
+}
+tooltip {
+  background-color: #232738;
+  color: #E8EAF2;
+  border: 1px solid #4F46E5;
+  border-radius: 10px;
+}
+
+/* --- Vixzen signature: sidebar selection is a glowing tab with an
+ * accent bar, not a stock pill. --- */
+.sidebar row:selected {
+  border-left: 3px solid #7C7CFF;
+  background-color: rgba(124,124,255,0.22);
+  box-shadow: 0 0 14px rgba(124,124,255,0.30);
+}
+
+/* --- Files (Nautilus): tinted sidebar, glowing selection, round cards --- */
+nautilus-window .sidebar {
+  background-color: #1B1E2A;
+  border-radius: 0 14px 14px 0;
+  padding: 6px;
+}
+nautilus-window .sidebar row {
+  border-radius: 10px;
+  padding: 3px 6px;
+}
+nautilus-window .sidebar row:selected {
+  background-color: rgba(124,124,255,0.30);
+  box-shadow: inset 0 0 0 1px rgba(124,124,255,0.55);
+}
+nautilus-window gridview > child:selected,
+nautilus-window iconview > child:selected {
+  background-color: rgba(124,124,255,0.30);
+  border-radius: 12px;
+  box-shadow: 0 0 16px rgba(124,124,255,0.35);
+}
+nautilus-window gridview > child,
+nautilus-window iconview > child {
+  border-radius: 12px;
+}
+nautilus-window headerbar {
+  background-color: #1B1E2A;
+  border-bottom: 2px solid #4F46E5;
+}
+nautilus-window searchentry {
+  border-radius: 12px;
+  border-color: #2E3448;
+}
+nautilus-window searchentry:focus {
+  border-color: #7C7CFF;
+  box-shadow: 0 0 12px rgba(124,124,255,0.45);
+}
+
+/* --- All apps: Vixzen buttons, cards, entries --- */
+button.suggested-action {
+  background-color: #7C7CFF;
+  color: #0B0C12;
+  border-radius: 12px;
+  box-shadow: 0 0 14px rgba(124,124,255,0.45);
+}
+button.destructive-action {
+  border-radius: 12px;
+}
+card, .card {
+  border-radius: 12px;
+  border-color: #2E3448;
+}
+entry {
+  border-radius: 10px;
+}
+headerbar {
+  border-bottom-color: #2E3448;
+}
+switch:checked {
+  background-color: #7C7CFF;
+}
+check:checked, radio:checked {
+  background-color: #7C7CFF;
+  color: #0B0C12;
+}
+progressbar > trough > progress {
+  background-color: #7C7CFF;
+}
+scale highlight {
+  background-color: #7C7CFF;
+}
+
+/* --- macOS traffic lights + Vixzen identity: red/yellow/green window
+ * buttons (WhiteSur nod), halo kept. Layout unchanged (right side). --- */
+window headerbar windowcontrols button {
+  border-radius: 999px;
+  min-width: 11px;
+  min-height: 11px;
+  margin: 8px 2px;
+  padding: 0;
+  -gtk-icon-size: 10px;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.55);
+  -gtk-icon-shadow: none;
+  border: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
+}
+window headerbar windowcontrols button.close { background-color: #FF5F57; }
+window headerbar windowcontrols button.maximize { background-color: #28C840; }
+window headerbar windowcontrols button.minimize { background-color: #FEBC2E; }
+window headerbar windowcontrols button.close:hover { background-color: #ff837c; box-shadow: 0 0 10px rgba(255, 95, 87, 0.7); }
+window headerbar windowcontrols button.maximize:hover { background-color: #4ae06a; box-shadow: 0 0 10px rgba(40, 200, 64, 0.7); }
+window headerbar windowcontrols button.minimize:hover { background-color: #ffd15e; box-shadow: 0 0 10px rgba(254, 188, 46, 0.7); }
+window headerbar windowcontrols button:backdrop { opacity: 0.55; box-shadow: none; }
+window headerbar windowcontrols button:hover { color: rgba(0, 0, 0, 0.9); }

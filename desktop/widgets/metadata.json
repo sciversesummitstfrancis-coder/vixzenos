@@ -1,0 +1,7 @@
+{
+  "uuid": "vixzen-widgets@vixzen.os",
+  "name": "Vixzen Widgets",
+  "description": "Top-bar weather temp with forecast + RSS headlines popup. No extra taskbar.",
+  "shell-version": ["50"],
+  "version": 1
+}

@@ -1,0 +1,20 @@
+// Vixzen Edu: only admin users (wheel) may toggle system networking or
+// change system connections. Students keep using the already-configured
+// school Wi-Fi but cannot re-enable networking after an admin kill-switch,
+// add hotspots/VPNs, or edit system connections.
+var ADMIN_ONLY = [
+    "org.freedesktop.NetworkManager.enable-disable-network",
+    "org.freedesktop.NetworkManager.enable-disable-wifi",
+    "org.freedesktop.NetworkManager.enable-disable-wwan",
+    "org.freedesktop.NetworkManager.network-control",
+    "org.freedesktop.NetworkManager.settings-modify-system",
+    "org.freedesktop.NetworkManager.settings-modify-global-dns"
+];
+polkit.addRule(function(action, subject) {
+    if (ADMIN_ONLY.indexOf(action.id) !== -1) {
+        if (subject.isInGroup("wheel")) {
+            return polkit.Result.YES;
+        }
+        return polkit.Result.NO;
+    }
+});

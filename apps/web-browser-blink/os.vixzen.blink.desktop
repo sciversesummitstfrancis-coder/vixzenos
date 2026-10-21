@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Vixzen Blink (Experimental)
+Comment=Chromium-engine browser for Chrome-only sites
+Exec=vixzen-blink %U
+Icon=vixzen-web
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=text/html;x-scheme-handler/http;x-scheme-handler/https;

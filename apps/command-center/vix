@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+"""Vixzen Command Center — the real VixzenOS CLI (read-only core, v0.1).
+
+    vix system info [--json]     OS, kernel, CPU, RAM, disk, GPU, session
+    vix system status [--json]   uptime, load, memory, disk use
+    vix doctor [--full] [--json] health checks (never repairs; exit 0/1/2)
+    vix update check [--json]   VixzenOS channel update status
+    vix update history [--json] installed VixzenOS packages
+    vix theme list [--json]      available Vixzen accents
+    vix glass status [--json]    current Glass tier (from perf mode)
+    vix version                  VixzenOS version
+    vix help                     this text
+
+Mutating commands (install, update, repair, theme set) are intentionally
+absent: they land after this core proves itself. See docs/ARCHITECTURE.md.
+"""
+import argparse
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Installed layout: /usr/bin/vix + /usr/share/vixzen/cmd/vixcmd/
+for _cand in ("/usr/share/vixzen/cmd",
+              os.path.join(os.path.dirname(os.path.abspath(__file__)), "..",
+                           "..", "apps", "command-center")):
+    if os.path.isdir(os.path.join(_cand, "vixcmd")) and _cand not in sys.path:
+        sys.path.insert(0, _cand)
+try:
+    from vixcmd import doctor, meta, system, theme, update
+except ImportError:
+    sys.stderr.write("vix: cannot locate the vixcmd module (package damaged?)\n")
+    raise SystemExit(3)
+
+
+def _json_flag(p):
+    p.add_argument("--json", action="store_true",
+                   help="machine-readable output")
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="vix", description="Vixzen Command Center")
+    sub = ap.add_subparsers(dest="cmd")
+
+    p = sub.add_parser("system", help="system facts")
+    ssub = p.add_subparsers(dest="op", required=True)
+    q = ssub.add_parser("info", help="OS, hardware, session")
+    _json_flag(q)
+    q = ssub.add_parser("status", help="load, memory, disk")
+    _json_flag(q)
+
+    p = sub.add_parser("doctor", help="health checks (read-only)")
+    p.add_argument("--full", action="store_true",
+                   help="include update check (needs network)")
+    _json_flag(p)
+
+    p = sub.add_parser("update", help="VixzenOS channel updates")
+    ssub = p.add_subparsers(dest="op", required=True)
+    q = ssub.add_parser("check", help="available VixzenOS updates")
+    _json_flag(q)
+    q = ssub.add_parser("history", help="installed VixzenOS packages")
+    _json_flag(q)
+
+    p = sub.add_parser("theme", help="Vixzen accents")
+    ssub = p.add_subparsers(dest="op", required=True)
+    q = ssub.add_parser("list", help="list accents")
+    _json_flag(q)
+
+    p = sub.add_parser("glass", help="Glass tier")
+    ssub = p.add_subparsers(dest="op", required=True)
+    q = ssub.add_parser("status", help="current tier")
+    _json_flag(q)
+
+    sub.add_parser("version", help="VixzenOS version")
+    sub.add_parser("help", help="this text")
+
+    a = ap.parse_args(argv)
+    if a.cmd in (None, "help"):
+        ap.print_help()
+        return 0
+    if a.cmd == "version":
+        return meta.version()
+    if a.cmd == "system":
+        if a.op == "info":
+            return system.info(a.json)
+        return system.status(a.json)
+    if a.cmd == "doctor":
+        return doctor.run(a.full, a.json)
+    if a.cmd == "theme":
+        return theme.theme_list(a.json)
+    if a.cmd == "update":
+        if a.op == "check":
+            return update.check(a.json)
+        return update.history(a.json)
+    if a.cmd == "glass":
+        return theme.glass_status(a.json)
+    ap.print_help()
+    return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

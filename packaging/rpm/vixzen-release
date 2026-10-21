@@ -1,0 +1,11 @@
+NAME="VixzenOS"
+VERSION="0.3"
+ID=vixzenos
+PRETTY_NAME="VixzenOS 0.3"
+ANSI_COLOR="0;38;2;0;230;118"
+LOGO=vixzen-logo
+HOME_URL="https://github.com/vixzen/vixzenos"
+SUPPORT_URL="https://github.com/vixzen/vixzenos/issues"
+BUG_REPORT_URL="https://github.com/vixzen/vixzenos/issues"
+VARIANT="VixzenOS"
+VARIANT_ID=vixzenos

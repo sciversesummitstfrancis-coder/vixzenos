@@ -1,0 +1,165 @@
+## lorax template file: populate the ramdisk (runtime image)
+<%page args="basearch, product"/>
+<%
+# Version 1:2.06-3 of grub2 moves the font directory and is needed to keep the efi template from failing.
+# Version 1:2.06-67 of grub2 includes all needed modules in the signed core.elf for ppc64le
+GRUB2VER="1:2.06-67"
+%>
+
+## anaconda package
+installpkg anaconda
+## work around dnf5 bug - https://github.com/rpm-software-management/dnf5/issues/1111
+installpkg anaconda-install-img-deps>=40.15
+## Other available payloads
+installpkg rpm-ostree ostree
+## speed up compression on multicore systems
+installpkg pigz
+
+## kernel and firmware
+## NOTE: Without explicitly including kernel-modules-extra dnf will choose kernel-debuginfo-*
+##       to satify a gfs2-utils kmod requirement
+installpkg kernel kernel-modules kernel-modules-extra
+## wireless testing - mac80211_hwsim
+installpkg kernel-modules-internal
+installpkg grubby
+%if basearch != "s390x":
+    ## skip the firmware for sound, video, and scanners, none of which will
+    ## do much good for the installer. Also skip uhd-firmware which is not
+    ## even a kernel firmware package. liquidio and netronome firmwares are
+    ## for enterprise switch devices, netinst deployment does not work on
+    ## these so there is no point shipping them - see
+    ## https://bugzilla.redhat.com/show_bug.cgi?id=2011615
+    ## bfa-firmware contains only obsolete files - see
+    ## https://bugzilla.redhat.com/show_bug.cgi?id=2152202
+    ## qcom-firmware we pull in again lower down but *only* on aarch64, it is
+    ## no use on other arches - https://bugzilla.redhat.com/show_bug.cgi?id=2178852
+    ## similarly amd-ucode-firmware is *only* useful on x86_64 so we pull
+    ## it in there later
+    ## python virt firmware packages obviously aren't 'real' firmware
+    ## crust-firmware is arm uboot stuff; we don't need a copy at this
+    ## level, it is built into the uboot firmware - see
+    ## https://bugzilla.redhat.com/show_bug.cgi?id=2352679#c13
+    installpkg --optional *-firmware --except alsa* --except midisport-firmware \
+                           --except crystalhd-firmware --except ivtv-firmware \
+                           --except cx18-firmware --except iscan-firmware \
+                           --except dvb-firmware --except cirrus-audio-firmware \
+                           --except intel-audio-firmware  --except intel-vsc-firmware \
+                           --except uhd-firmware --except lulzbot-marlin-firmware \
+                           --except gnome-firmware --except sigrok-firmware \
+                           --except liquidio-firmware --except netronome-firmware \
+                           --except mrvlprestera-firmware --except mlxsw_spectrum-firmware \
+                           --except hackrf-firmware --except python-virt-firmware \
+                           --except python3-virt-firmware --except crust-firmware \
+                           --except qcom-firmware --except qcom-accel-firmware \
+                           --except amd-ucode-firmware
+    installpkg b43-openfwwf
+%endif
+
+## install all of the glibc langpacks since otherwise we get no locales
+installpkg glibc-all-langpacks
+
+## arch-specific packages (bootloaders etc.)
+%if basearch == "aarch64":
+    installpkg efibootmgr
+    installpkg grub2-efi-aa64-cdboot>=${GRUB2VER}
+    installpkg grub2-tools>=${GRUB2VER}
+    installpkg shim-aa64
+    installpkg uboot-tools
+    installpkg qcom-firmware
+%endif
+%if basearch == "x86_64":
+    installpkg grub2-tools-efi>=${GRUB2VER}
+    installpkg efibootmgr
+    installpkg shim-x64
+    installpkg grub2-efi-x64-cdboot>=${GRUB2VER}
+    installpkg shim-ia32
+    installpkg grub2-efi-ia32-cdboot>=${GRUB2VER}
+    installpkg biosdevname
+    installpkg grub2-tools>=${GRUB2VER} grub2-tools-minimal>=${GRUB2VER}
+    installpkg grub2-tools-extra>=${GRUB2VER}
+    installpkg grub2-pc-modules>=${GRUB2VER}
+    installpkg amd-ucode-firmware
+%endif
+%if basearch == "ppc64le":
+    installpkg powerpc-utils lsvpd ppc64-diag
+    installpkg grub2-tools>=${GRUB2VER} grub2-tools-minimal>=${GRUB2VER}
+    installpkg grub2-tools-extra>=${GRUB2VER} grub2-${basearch}>=${GRUB2VER}
+%endif
+%if basearch == "s390x":
+    installpkg lsscsi s390utils-base s390utils-cmsfs-fuse s390utils-hmcdrvfs
+%endif
+
+## yay, plymouth
+installpkg plymouth
+
+## extra dracut modules
+installpkg anaconda-dracut dracut-network dracut-config-generic
+
+## import-state.service for switchroot
+installpkg initscripts
+
+## rescue needs this
+installpkg cryptsetup
+
+## rpcbind or portmap needed by dracut nfs module
+installpkg rpcbind
+
+## required for dracut
+installpkg kbd kbd-misc
+## required for anaconda-dracut (img-lib etc.)
+installpkg tar xz curl bzip2
+
+## basic system stuff
+installpkg rsyslog
+
+## extra storage tools for rescue mode
+installpkg device-mapper-persistent-data
+installpkg xfsdump
+
+## needed for LUKS escrow
+installpkg volume_key
+installpkg nss-tools
+
+## SELinux support
+installpkg selinux-policy libselinux-utils selinux-policy-targeted audit
+
+## network tools/servers
+installpkg ethtool openssh-server nfs-utils openssh-clients
+installpkg net-tools
+installpkg bridge-utils
+installpkg nmap-ncat
+installpkg prefixdevname
+
+## hardware utilities/libraries
+installpkg pciutils usbutils ipmitool
+installpkg mt-st smartmontools
+installpkg hdparm
+installpkg rdma-core
+installpkg rng-tools
+%if basearch in ("x86_64", "aarch64"):
+installpkg dmidecode
+%endif
+installpkg nvme-cli
+
+## fonts & themes
+installpkg default-fonts-core-sans
+installpkg default-fonts-other-sans
+## We can't go with this because google-noto-sans-cjk-vf-fonts is too big.
+# installpkg default-fonts-cjk-sans
+installpkg google-noto-sans-cjk-fonts
+
+## debugging/bug reporting tools
+installpkg gdb-gdbserver
+installpkg libreport-plugin-bugzilla libreport-plugin-reportuploader
+installpkg fpaste
+installpkg python3-pyatspi
+
+## extra tools not required by anaconda
+installpkg nano nano-default-editor
+installpkg vim-minimal strace lsof dump xz less
+installpkg wget2-wget rsync bind-utils ftp mtr vconfig
+installpkg spice-vdagent
+installpkg gdisk hexedit sg3_utils
+
+## actually install all the requested packages
+run_pkg_transaction

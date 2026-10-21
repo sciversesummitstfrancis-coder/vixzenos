@@ -1,0 +1,17 @@
+# Vendored GNOME extensions (all unmodified, licenses inside the zips).
+# Hide Top Bar v126 (GPL-3.0): https://extensions.gnome.org/extension/545/hide-top-bar/
+#   direct: .../download-extension/hidetopbar@mathieu.bidon.ca.shell-extension.zip?version_tag=73321
+# From "Fedora GNOME Setup" gist (user request, 2026-10-12), all GNOME 45-51:
+# Desktop Cube v35 (GPL-3.0): pk 76156
+# Compiz windows effect v33 (GPL): pk 76121
+# Compiz alike magic lamp effect v25 (GPL): pk 76122
+# Magnific Launcher v2: macOS-like magnification wave for dock icons on
+# hover; works WITH dash-to-dock (the normal Fedora setup). pk 70528.
+# Round 2 (user request, 2026-10-13): Burn My Windows v49 (pk 75536),
+# Fly-Pie v33 (pk 69159), PaperWM v148 (pk 70147), Rounded Corners v25
+# (pk 73032), Logo Menu v45 (pk 75631), Clipboard v71 (pk 70694),
+# Caffeine v61 (pk 76057), Astra Monitor v62 (pk 76303).
+# PaperWM ships installed-but-OFF (paradigm conflict); Search Light skipped
+# (no GNOME 50 build); Weather O'Clock dropped (redundant with our widget).
+# %post unzips each to /usr/share/gnome-shell/extensions + enables them.
+# Remove a zip to drop that dependency (revert = one rm + rebuild).

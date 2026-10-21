@@ -1,0 +1,26 @@
+[Icon Theme]
+Name=Vixzen
+Comment=VixzenOS icon theme — Vixzen brand folders + core apps over Adwaita
+Inherits=Adwaita
+Directories=scalable/places,scalable/apps,scalable/mimetypes
+
+[scalable/places]
+Size=48
+Type=Scalable
+MinSize=8
+MaxSize=512
+Context=Places
+
+[scalable/apps]
+Size=48
+Type=Scalable
+MinSize=8
+MaxSize=512
+Context=Applications
+
+[scalable/mimetypes]
+Size=48
+Type=Scalable
+MinSize=8
+MaxSize=512
+Context=MimeTypes

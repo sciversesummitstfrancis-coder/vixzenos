@@ -1,0 +1,7 @@
+{
+  "uuid": "vixzen-shell@vixzen.os",
+  "name": "Vixzen Shell",
+  "description": "Bottom taskbar + attached Start Menu for VixzenOS (bar, magnification, menu).",
+  "shell-version": ["50"],
+  "version": 2
+}

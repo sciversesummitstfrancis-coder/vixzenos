@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VixzenOS — Lightweight • Graphical • Yours</title>
+<meta name="description" content="VixzenOS 0.3 Preview: a neon-identity Linux desktop with cinematic boot, a Windows-familiar workflow, and a classroom-lockdown Edu edition.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="burst" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="brand"><span class="mark">◈</span> VixzenOS <span class="ver">0.3 Preview</span></div>
+  <nav>
+    <a href="#editions">Editions</a>
+    <a href="#tour">Tour</a>
+    <a href="#download" class="btn small">Download</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="badge">Independent Linux distro • Wayland • 8&nbsp;GB friendly</div>
+    <h1><span class="mark big">◈</span> Vixzen<span class="os">OS</span></h1>
+    <p class="tag">Lightweight&nbsp;&nbsp;•&nbsp;&nbsp;Graphical&nbsp;&nbsp;•&nbsp;&nbsp;Yours</p>
+    <p class="sub">A neon-minded desktop with a cinematic boot, a glowing taskbar dock,
+      and a classroom-locked <strong>Edu edition</strong> — built live, in the open.</p>
+    <div class="cta">
+      <a href="#download" class="btn glow">Get VixzenOS</a>
+      <a href="#tour" class="btn ghost">See it move</a>
+    </div>
+    <div class="stats">
+      <div><strong>2.8G</strong><span>live ISO</span></div>
+      <div><strong>600ms</strong><span>insane-mode glow</span></div>
+      <div><strong>66</strong><span>boot frames</span></div>
+      <div><strong>2</strong><span>editions</span></div>
+    </div>
+  </section>
+
+  <section id="editions" class="editions">
+    <h2>Pick your edition</h2>
+    <div class="cards">
+      <article class="card tilt">
+        <h3>◈ Personal</h3>
+        <p class="muted">Your daily driver. Full desktop, full control.</p>
+        <ul>
+          <li>Neon burst desktop + glowing dock</li>
+          <li>Cinematic boot &amp; login</li>
+          <li>Vixzen Files, Settings, Power menu</li>
+          <li>Insane animation mode (opt-in)</li>
+        </ul>
+        <a class="btn" href="#download" data-iso="personal">Download Personal</a>
+      </article>
+      <article class="card tilt featured">
+        <div class="flag">for schools</div>
+        <h3>◈ Edu</h3>
+        <p class="muted">Classroom-locked. Students learn, admins rule.</p>
+        <ul>
+          <li>Admin internet kill-switch</li>
+          <li>Software store locked for students</li>
+          <li>Student accounts, zero admin rights</li>
+          <li>Same neon desktop underneath</li>
+        </ul>
+        <a class="btn glow" href="#download" data-iso="edu">Download Edu</a>
+      </article>
+    </div>
+  </section>
+
+  <section id="tour" class="tour">
+    <h2>Sixty seconds of Vixzen</h2>
+    <div class="shot"><img src="assets/shot-desktop.png" alt="VixzenOS desktop with glowing dock" loading="lazy">
+      <p>Desktop — burst wallpaper, centered dock, halo windows</p></div>
+    <div class="shot"><img src="assets/shot-login.png" alt="VixzenOS login with glowing avatar ring" loading="lazy">
+      <p>Login — glass card, ringed avatar, glowing password field</p></div>
+    <div class="shot"><img src="assets/shot-boot.png" alt="VixzenOS boot splash with comet spinner" loading="lazy">
+      <p>Boot — comet spinner, Vixzen mark, indigo night</p></div>
+  </section>
+
+  <section id="download" class="download">
+    <h2>Download</h2>
+    <p class="muted">Preview builds for testers. Verify, write to USB, try without installing.</p>
+    <div class="dl-grid">
+      <div class="dl">
+        <img class="dl-logo" src="assets/vixzen-logo.png" alt="VixzenOS logo">
+        <h3>Personal <span class="ver">0.3</span></h3>
+        <button class="btn glow" data-dl="personal">Download ISO</button>
+        <code class="sum" data-sum="personal">sha256: build on demand</code>
+      </div>
+      <div class="dl">
+        <img class="dl-logo" src="assets/vixzen-logo.png" alt="VixzenOS logo">
+        <h3>Edu <span class="ver">0.3</span></h3>
+        <button class="btn glow" data-dl="edu">Download ISO</button>
+        <code class="sum" data-sum="edu">sha256: build on demand</code>
+      </div>
+    </div>
+    <ol class="how">
+      <li>Verify the checksum: <code>sha256sum VixzenOS-*.iso</code></li>
+      <li>Write it: <code>sudo dd if=VixzenOS-*.iso of=/dev/sdX bs=4M status=progress oflag=sync</code></li>
+      <li>Reboot → boot menu → USB → try VixzenOS. Nothing installs unless you say so.</li>
+    </ol>
+    <p class="note" data-note>ISOs are built locally for now — press download to check for a local build.</p>
+  </section>
+
+  <footer>
+    <span>◈ VixzenOS 0.3 Preview — an independent Linux distribution built on Fedora packages.
+    Not affiliated with or endorsed by the Fedora Project or GNOME.</span>
+  </footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
