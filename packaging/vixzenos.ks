@@ -38,10 +38,11 @@ gtk4
 libadwaita
 python3-gobject
 webkitgtk6.0
-# Second engine (real Blink/Chromium) for Chrome-only sites (Meet, banking,
-# DRM video). Vixzen Web stays the lightweight default; Chromium is the
-# fallback. Fedora package name is `chromium`.
-chromium
+# NOTE: chromium is intentionally NOT listed. It only exists in RPM Fusion,
+# which the live-build installer does not have configured -> the package
+# download fails and the whole ISO build aborts. Vixzen Web (webkitgtk6.0)
+# plus Firefox cover browsing; Chromium can be added later via a custom
+# boot ISO with RPM Fusion enabled.
 glib2-devel
 gnome-shell-extension-dash-to-dock
 gnome-shell-extension-user-theme

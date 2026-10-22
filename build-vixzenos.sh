@@ -118,8 +118,13 @@ cp "$HERE"/assets/wallpapers/* "$STAGE/" 2>/dev/null || true
 find "$STAGE" -type f | tee -a "$LOG" >/dev/null
 log "[STAGE] $(find "$STAGE" -type f | wc -l) files staged."
 rm -f /tmp/vixzen-stage.tar.gz
-tar -czf /tmp/vixzen-stage.tar.gz -C /tmp vixzen-stage 2>>"$LOG" \
-  && log "[STAGE] tarball /tmp/vixzen-stage.tar.gz ($(du -h /tmp/vixzen-stage.tar.gz | cut -f1))" \
+# Publish dir is under $HOME: a root-owned /tmp tarball cannot be replaced by
+# a later non-root run (sticky bit), which broke --check-only after a sudo build.
+PUB="$HOME/.cache/vixzen-publish"
+mkdir -p "$PUB"
+rm -f "$PUB/vixzen-stage.tar.gz"
+tar -czf "$PUB/vixzen-stage.tar.gz" -C /tmp vixzen-stage 2>>"$LOG" \
+  && log "[STAGE] tarball $PUB/vixzen-stage.tar.gz ($(du -h "$PUB/vixzen-stage.tar.gz" | cut -f1))" \
   || { log "[FAIL] stage tarball (see $LOG)"; fail=1; }
 # Sudo runs create root-owned files; hand the stage back so the next
 # user-owned run doesn't trip over permissions.
@@ -168,10 +173,11 @@ if [ ! -f "$BOOT_ISO" ]; then
   exit 3
 fi
 rm -rf "$RESULTDIR"
-log "[BUILD] serving /tmp/vixzen-stage.tar.gz on 10.0.2.2:8008 for VM %post fetch…"
+PUB="$HOME/.cache/vixzen-publish"
+log "[BUILD] serving $PUB/vixzen-stage.tar.gz on 10.0.2.2:8008 for VM %post fetch…"
 # VM install cannot see host /tmp; serve the tarball over user-net HTTP.
 # Guest reaches host at 10.0.2.2. Kill server on exit.
-python3 -m http.server 8008 --directory /tmp >/dev/null 2>&1 &
+python3 -m http.server 8008 --directory "$PUB" >/dev/null 2>&1 &
 HTTP_PID=$!
 trap 'kill $HTTP_PID 2>/dev/null || true' EXIT
 sleep 1
