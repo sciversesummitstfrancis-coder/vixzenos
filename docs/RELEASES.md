@@ -4,6 +4,36 @@ VixzenOS ships as **real RPM packages in its own repository**. Users update
 with the tools they already know (`dnf upgrade`), and the channel is a
 first-class VixzenOS thing — not "whatever the base distro had".
 
+## Install VixzenOS packages
+
+```bash
+# one-time: add the channel
+sudo vixzen-repo-setup.sh
+
+# then
+sudo dnf install vixzenos-release vixzenos-apps vixzenos-theme vixzenos-cursor vixzenos-cli
+```
+
+Or install the metapackage, which pulls the rest:
+```bash
+sudo dnf install vixzenos-release
+```
+
+## Get the live ISO
+
+Release assets live at:
+`https://github.com/sciversesummitstfrancis-coder/vixzenos/releases`
+
+Verify before you write it to a stick:
+```bash
+sha256sum -c SHA256SUMS.txt
+sudo dd if=VixzenOS-0.3-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync
+```
+Then reboot → boot menu → USB → try VixzenOS (nothing installs unless you say so).
+
+If the ISO was uploaded as `.part` files (GitHub caps release assets at 2 GiB),
+rejoin first: `cat VixzenOS-0.3-x86_64.iso.part* > VixzenOS-0.3-x86_64.iso`
+
 ## Package set
 
 | Package | Contents |

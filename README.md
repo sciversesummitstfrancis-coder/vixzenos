@@ -15,6 +15,19 @@ Intel HD 520).
   Fedora, GNOME, and other upstream projects remain the copyright of their
   respective owners; this project is not affiliated with or endorsed by them.
 
+## Get VixzenOS
+
+**Live ISO (try without installing):**
+- Releases: `https://github.com/sciversesummitstfrancis-coder/vixzenos/releases`
+- Verify: `sha256sum -c SHA256SUMS.txt`
+- Write to USB: `sudo dd if=VixzenOS-0.3-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync`
+
+**Packages (update channel):**
+```bash
+sudo vixzen-repo-setup.sh
+sudo dnf install vixzenos-release
+```
+
 ## Quick start
 
 ```bash
