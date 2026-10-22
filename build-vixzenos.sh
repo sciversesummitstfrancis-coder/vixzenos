@@ -82,6 +82,8 @@ cp "$HERE"/apps/web-browser/*.desktop "$STAGE/web/" 2>/dev/null || true
 cp "$HERE"/assets/branding/vixzen-web.svg "$STAGE/" 2>/dev/null || true
 cp "$HERE"/desktop/shell/extension.js "$HERE"/desktop/shell/metadata.json "$STAGE/shell/" 2>/dev/null || fail=1
 cp "$HERE"/desktop/shell/vendor/*.zip "$STAGE/shell/" 2>/dev/null || log "[WARN] no vendored shell extensions"
+mkdir -p "$STAGE/widgets"
+cp "$HERE"/desktop/widgets/* "$STAGE/widgets/" 2>/dev/null || log "[WARN] no vixzen widgets"
 cp "$HERE"/assets/boot/*.png "$STAGE/boot/" 2>/dev/null || fail=1
 mkdir -p "$STAGE/boot/frames"
 cp "$HERE"/assets/boot/frames/*.png "$STAGE/boot/frames/" 2>/dev/null \
@@ -98,11 +100,19 @@ cp "$HERE"/packaging/edu-polkit/*.rules "$STAGE/edu/" 2>/dev/null || log "[WARN]
 mkdir -p "$STAGE/cmd"
 cp "$HERE"/apps/command-center/vix "$STAGE/cmd/" 2>/dev/null || fail=1
 cp -a "$HERE"/apps/command-center/vixcmd "$STAGE/cmd/" 2>/dev/null || fail=1
+mkdir -p "$STAGE/core"
+cp "$HERE"/shared/vixzen_core/*.py "$STAGE/core/" 2>/dev/null || fail=1
 mkdir -p "$STAGE/update"
 cp "$HERE"/scripts/vixzen-update.sh "$STAGE/update/" 2>/dev/null || fail=1
 cp "$HERE"/scripts/de-fedora.sh "$STAGE/" 2>/dev/null || fail=1
 mkdir -p "$STAGE/cursors"
 cp -a "$HERE"/assets/cursors/WhiteSur "$STAGE/cursors/" 2>/dev/null || fail=1
+mkdir -p "$STAGE/looks"
+# The full "looks" bundle: WhiteSur GTK theme + WhiteSur/Tela icon sets +
+# macOS wallpapers, so a fresh VixzenOS boots looking like the host.
+cp -a "$HERE"/assets/gtk-theme/WhiteSur-Dark-blue "$STAGE/looks/" 2>/dev/null || true
+cp -a "$HERE"/assets/icons/theme/WhiteSur-dark "$STAGE/looks/" 2>/dev/null || true
+cp -a "$HERE"/assets/wallpapers/whitesur "$STAGE/looks/" 2>/dev/null || true
 cp "$HERE"/assets/branding/* "$STAGE/" 2>/dev/null || true
 cp "$HERE"/assets/wallpapers/* "$STAGE/" 2>/dev/null || true
 find "$STAGE" -type f | tee -a "$LOG" >/dev/null

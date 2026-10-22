@@ -45,6 +45,7 @@ chromium
 glib2-devel
 gnome-shell-extension-dash-to-dock
 gnome-shell-extension-user-theme
+gnome-shell-extension-blur-my-shell
 qemu-guest-agent
 cool-retro-term
 fastfetch
@@ -149,6 +150,9 @@ cp /tmp/vixzen-stage/cmd/vix /usr/share/vixzen/cmd/vix 2>/dev/null || true
 cp -a /tmp/vixzen-stage/cmd/vixcmd /usr/share/vixzen/cmd/vixcmd 2>/dev/null || true
 chmod 755 /usr/share/vixzen/cmd/vix 2>/dev/null || true
 ln -sf /usr/share/vixzen/cmd/vix /usr/local/bin/vix 2>/dev/null || true
+# --- shared core (vixzen_core) for the Vixzen apps ---
+mkdir -p /usr/lib/python3.14/site-packages/vixzen_core
+cp /tmp/vixzen-stage/core/*.py /usr/lib/python3.14/site-packages/vixzen_core/ 2>/dev/null || true
 # --- vixzen-update (M7): refresh payload from bundles, with backup ---
 cp /tmp/vixzen-stage/update/vixzen-update.sh /usr/local/bin/vixzen-update 2>/dev/null || true
 chmod 755 /usr/local/bin/vixzen-update 2>/dev/null || true
@@ -157,9 +161,16 @@ mkdir -p /usr/share/gnome-shell/extensions/vixzen-shell@vixzen.os
 cp /tmp/vixzen-stage/shell/extension.js /tmp/vixzen-stage/shell/metadata.json \
    /usr/share/gnome-shell/extensions/vixzen-shell@vixzen.os/ 2>/dev/null || true
 chmod 644 /usr/share/gnome-shell/extensions/vixzen-shell@vixzen.os/* 2>/dev/null || true
+# --- Vixzen Widgets (top-bar weather + headlines) ---
+if [ -d /tmp/vixzen-stage/widgets ]; then
+  mkdir -p /usr/share/gnome-shell/extensions/vixzen-widgets@vixzen.os
+  cp /tmp/vixzen-stage/widgets/* /usr/share/gnome-shell/extensions/vixzen-widgets@vixzen.os/ 2>/dev/null || true
+  chmod 644 /usr/share/gnome-shell/extensions/vixzen-widgets@vixzen.os/* 2>/dev/null || true
+  echo "VIXZEN: vixzen-widgets installed"
+fi
 # --- Vendored shell extensions: Hide Top Bar + Desktop Cube + Compiz
 # windows effect + Magic Lamp (all GNOME 50 builds, licenses in zips) ---
-for spec in "hidetopbar-126-gnome50.zip|hidetopbar@mathieu.bidon.ca" "desktop-cube-35-gnome50.zip|desktop-cube@schneegans.github.com" "compiz-windows-effect-33-gnome50.zip|compiz-windows-effect@hermes83.github.com" "compiz-magic-lamp-25-gnome50.zip|compiz-alike-magic-lamp-effect@hermes83.github.com" "magnific-launcher-2-gnome50.zip|magnific-launcher@gilsonf" "burn-my-windows-49-gnome50.zip|burn-my-windows@schneegans.github.com" "flypie-33-gnome50.zip|flypie@schneegans.github.com" "paperwm-148-gnome50.zip|paperwm@paperwm.github.com" "rounded-corners-25-gnome50.zip|rounded-window-corners@fxgn" "logomenu-45-gnome50.zip|logomenu@aryan_k" "clipboard-71-gnome50.zip|clipboard-indicator@tudmotu.com" "caffeine-61-gnome50.zip|caffeine@patapon.info" "astra-monitor-62-gnome50.zip|monitor@astraext.github.io"; do
+for spec in "hidetopbar-126-gnome50.zip|hidetopbar@mathieu.bidon.ca" "desktop-cube-35-gnome50.zip|desktop-cube@schneegans.github.com" "compiz-windows-effect-33-gnome50.zip|compiz-windows-effect@hermes83.github.com" "compiz-magic-lamp-25-gnome50.zip|compiz-alike-magic-lamp-effect@hermes83.github.com" "magnific-launcher-2-gnome50.zip|magnific-launcher@gilsonf" "burn-my-windows-49-gnome50.zip|burn-my-windows@schneegans.github.com" "flypie-33-gnome50.zip|flypie@schneegans.github.com" "paperwm-148-gnome50.zip|paperwm@paperwm.github.com" "rounded-corners-25-gnome50.zip|rounded-window-corners@fxgn" "logomenu-45-gnome50.zip|logomenu@aryan_k" "clipboard-71-gnome50.zip|clipboard-indicator@tudmotu.com" "caffeine-61-gnome50.zip|caffeine@patapon.info" "astra-monitor-62-gnome50.zip|monitor@astraext.github.io" "ding-100-gnome50.zip|ding@rastersoft.com" "wallpaper-engine-9-gnome50.zip|gnome-wallpaper-engine@gjs.com"; do
   zip="/tmp/vixzen-stage/shell/${spec%%|*}"
   uuid="${spec##*|}"
   [ -f "$zip" ] || { echo "VIXZEN WARN: missing $zip"; continue; }
@@ -176,7 +187,7 @@ done
 mkdir -p /etc/dconf/db/local.d
 cat > /etc/dconf/db/local.d/00-vixzen <<'EOF'
 [org/gnome/shell]
-enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'hidetopbar@mathieu.bidon.ca', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'desktop-cube@schneegans.github.com', 'compiz-windows-effect@hermes83.github.com', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'magnific-launcher@gilsonf', 'burn-my-windows@schneegans.github.com', 'flypie@schneegans.github.com', 'rounded-window-corners@fxgn', 'logomenu@aryan_k', 'clipboard-indicator@tudmotu.com', 'caffeine@patapon.info', 'monitor@astraext.github.io']
+enabled-extensions=['blur-my-shell@aunetx', 'burn-my-windows@schneegans.github.com', 'caffeine@patapon.info', 'clipboard-indicator@tudmotu.com', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'compiz-windows-effect@hermes83.github.com', 'dash-to-dock@micxgx.gmail.com', 'desktop-cube@schneegans.github.com', 'ding@rastersoft.com', 'flypie@schneegans.github.com', 'gnome-wallpaper-engine@gjs.com', 'gsconnect@andyholmes.github.io', 'logomenu@aryan_k', 'magnific-launcher@gilsonf', 'monitor@astraext.github.io', 'rounded-window-corners@fxgn', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'vixzen-widgets@vixzen.os']', 'rounded-window-corners@fxgn', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'vixzen-widgets@vixzen.os']
 [org/gnome/shell/extensions/logo-menu]
 use-custom-icon=true
 custom-icon-path='/usr/share/vixzen-branding/logo.svg'
@@ -285,6 +296,15 @@ mkdir -p /usr/share/icons /usr/share/themes/Vixzen/gnome-shell
 cp -a /tmp/vixzen-stage/icons/Vixzen /usr/share/icons/ 2>/dev/null || true
 cp /tmp/vixzen-stage/gtheme/gnome-shell.css /usr/share/themes/Vixzen/gnome-shell/ 2>/dev/null || true
 gtk-update-icon-cache -f /usr/share/icons/Vixzen/ 2>/dev/null || true
+# --- WhiteSur look bundle (GTK theme + icon set + macOS wallpapers) ---
+if [ -d /tmp/vixzen-stage/looks ]; then
+  mkdir -p /usr/share/themes /usr/share/icons /usr/share/backgrounds/vixzen
+  cp -a /tmp/vixzen-stage/looks/WhiteSur-Dark-blue /usr/share/themes/ 2>/dev/null || true
+  cp -a /tmp/vixzen-stage/looks/WhiteSur-dark /usr/share/icons/ 2>/dev/null || true
+  cp -a /tmp/vixzen-stage/looks/whitesur/. /usr/share/backgrounds/vixzen/ 2>/dev/null || true
+  gtk-update-icon-cache -f /usr/share/icons/WhiteSur-dark/ 2>/dev/null || true
+  echo "VIXZEN: WhiteSur theme + icons + wallpapers installed"
+fi
 # --- WhiteSur cursors (vendored, gist recipe) ---
 # NOTE: installed as WhiteSur-cursors (NOT WhiteSur/) — the WhiteSur *icon*
 # theme owns that folder name and would silently overwrite the cursors.
