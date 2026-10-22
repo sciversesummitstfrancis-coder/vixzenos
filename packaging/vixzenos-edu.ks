@@ -1,7 +1,8 @@
 # VixzenOS Edu kickstart — classroom edition (internet kill-switch + locked
-# Software store for non-admins). Same desktop as personal; adds student
-# account (no admin rights) + Edu lockdown payload. Admin password is set at
-# deploy time (passwd student / passwd <admin>); live demo uses liveuser.
+# Software store for non-admins). Same desktop as Personal; adds a student
+# account (no admin rights) + the Edu lockdown payload. Admin password is set
+# at deploy time (passwd student / passwd <admin>); the live demo uses
+# liveuser.
 # Build: VXZ_KS=packaging/vixzenos-edu.ks sudo -E ./build-vixzenos.sh ./build/boot.iso
 # (Needs the same build/boot.iso alongside)
 #version=F44
@@ -18,7 +19,7 @@ xconfig --startxonboot
 network --bootproto=dhcp --device=link --activate
 rootpw --lock
 user --name=liveuser --groups=wheel --homedir=/home/liveuser
-# Student: deliberately NOT in wheel, so Edu polkit rules (network +
+# Student: deliberately NOT in wheel, so the Edu polkit rules (network +
 # PackageKit admin-only) apply. Password locked until the school sets it.
 user --name=student --homedir=/home/student
 firewall --enabled --service=mdns
@@ -44,6 +45,11 @@ unzip
 gtk4
 libadwaita
 python3-gobject
+webkitgtk6.0
+# Second engine (real Blink/Chromium) for Chrome-only sites (Meet, banking,
+# DRM video). Vixzen Web stays the lightweight default; Chromium is the
+# fallback. Fedora package name is `chromium`.
+chromium
 glib2-devel
 gnome-shell-extension-dash-to-dock
 gnome-shell-extension-user-theme
@@ -75,11 +81,16 @@ if [ ! -f /tmp/vixzen-stage/preview/vixzen_preview.py ]; then
     || echo "VIXZEN WARN: stage fetch failed (ISO will be vanilla Fedora live, still bootable)"
 fi
 # --- Vixzen apps + branding (all inside the ISO image, never touches the host) ---
-mkdir -p /usr/share/vixzen/{preview,files,settings,power} /usr/share/vixzen-branding
+mkdir -p /usr/share/vixzen/{preview,files,settings,power,web} /usr/share/vixzen-branding
 cp /tmp/vixzen-stage/preview/* /usr/share/vixzen/preview/ 2>/dev/null || true
 cp /tmp/vixzen-stage/files/* /usr/share/vixzen/files/ 2>/dev/null || true
 cp /tmp/vixzen-stage/settings/* /usr/share/vixzen/settings/ 2>/dev/null || true
 cp /tmp/vixzen-stage/power/* /usr/share/vixzen/power/ 2>/dev/null || true
+cp /tmp/vixzen-stage/web/*.py /usr/share/vixzen/web/ 2>/dev/null || true
+cp /tmp/vixzen-stage/web/vixzen-web /usr/local/bin/vixzen-web 2>/dev/null || true
+chmod 755 /usr/local/bin/vixzen-web /usr/share/vixzen/web/*.py 2>/dev/null || true
+cp /tmp/vixzen-stage/vixzen-web.svg /usr/share/icons/hicolor/scalable/apps/ 2>/dev/null || true
+cp /tmp/vixzen-stage/vixzen-web.svg /usr/share/vixzen-branding/ 2>/dev/null || true
 cp /tmp/vixzen-stage/*.svg /usr/share/vixzen-branding/ 2>/dev/null || true
 mkdir -p /boot/vixzen /boot/vixzen/frames
 cp /tmp/vixzen-stage/boot/* /boot/vixzen/ 2>/dev/null || true
@@ -189,7 +200,7 @@ enabled-extensions=['blur-my-shell@aunetx', 'burn-my-windows@schneegans.github.c
 use-custom-icon=true
 custom-icon-path='/usr/share/vixzen-branding/logo.svg'
 menu-button-icon-size=20
-favorite-apps=['vixzen-menu.desktop', 'vixzen-search.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Calculator.desktop']
+favorite-apps=['vixzen-menu.desktop', 'vixzen-search.desktop', 'os.vixzen.web.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Calculator.desktop']
 [org/gnome/desktop/wm/preferences]
 button-layout='appmenu:minimize,close'
 [org/gnome/mutter]
@@ -278,6 +289,16 @@ Icon=org.gnome.Settings
 Type=Application
 Categories=System;Settings;
 EOF
+cat > /usr/share/applications/os.vixzen.web.desktop <<'EOF'
+[Desktop Entry]
+Name=Vixzen Web
+Comment=Lightweight native web browser
+Exec=python3 /usr/share/vixzen/web/vixzen_web.py
+Icon=org.gnome.Epiphany
+Type=Application
+Categories=Network;WebBrowser;
+StartupWMClass=vixzen_web
+EOF
 # --- Vixzen look, installed (icons + shell theme the dconf block points at) ---
 mkdir -p /usr/share/icons /usr/share/themes/Vixzen/gnome-shell
 cp -a /tmp/vixzen-stage/icons/Vixzen /usr/share/icons/ 2>/dev/null || true
@@ -336,14 +357,23 @@ if [ -d /usr/share/plymouth/themes/spinner ]; then
     /usr/share/plymouth/themes/vixzen/vixzen.plymouth 2>/dev/null || true
   grep -q '^TransitionDuration=' /usr/share/plymouth/themes/vixzen/vixzen.plymouth 2>/dev/null \
     || echo 'TransitionDuration=0.5' >> /usr/share/plymouth/themes/vixzen/vixzen.plymouth
-    /usr/share/plymouth/themes/vixzen/vixzen.plymouth 2>/dev/null || true
   grep -q '^Title=' /usr/share/plymouth/themes/vixzen/vixzen.plymouth 2>/dev/null \
     || echo 'Title=VixzenOS' >> /usr/share/plymouth/themes/vixzen/vixzen.plymouth
   sed -i 's/^Name=.*/Name=Vixzen/; s/^Description=.*/Description=VixzenOS boot splash/' \
     /usr/share/plymouth/themes/vixzen/vixzen.plymouth 2>/dev/null || true
   plymouth-set-default-theme -R vixzen 2>/dev/null || plymouth-set-default-theme vixzen 2>/dev/null || true
 fi
-# --- De-Fedora scrub (same as personal edition) ---
+# --- Edu lockdown: admin helper (root-owned so students can't edit it),
+# network control rule always-on, store rule shipped dormant until locked ---
+install -m 755 /tmp/vixzen-stage/edu/vixzen-edu-admin.sh /usr/libexec/vixzen-edu-admin 2>/dev/null || true
+mkdir -p /usr/share/vixzen-edu /usr/share/polkit-1/rules.d
+cp /tmp/vixzen-stage/edu/49-vixzen-edu-store.rules /usr/share/vixzen-edu/ 2>/dev/null || true
+cp /tmp/vixzen-stage/edu/49-vixzen-edu-network.rules /usr/share/polkit-1/rules.d/ 2>/dev/null || true
+chmod 644 /usr/share/vixzen-edu/* /usr/share/polkit-1/rules.d/49-vixzen-edu-*.rules 2>/dev/null || true
+echo "VIXZEN EDU payload installed" || true
+# --- De-Fedora scrub: remove every visible Fedora brand from the image
+# (background-logo extension, logo sets, GDM theme, wallpapers, release
+# files). Keeps the "fedora" ID in os-release for repo/dnf compatibility. ---
 if [ -f /tmp/vixzen-stage/de-fedora.sh ]; then
   bash /tmp/vixzen-stage/de-fedora.sh 2>&1 | sed 's/^/  /' || true
 fi
@@ -418,12 +448,4 @@ XMLEOF
   fi
   rm -rf "$T"
 fi
-# --- Edu lockdown: admin helper (root-owned so students can't edit it),
-# network control rule always-on, store rule shipped dormant until locked ---
-install -m 755 /tmp/vixzen-stage/edu/vixzen-edu-admin.sh /usr/libexec/vixzen-edu-admin 2>/dev/null || true
-mkdir -p /usr/share/vixzen-edu /usr/share/polkit-1/rules.d
-cp /tmp/vixzen-stage/edu/49-vixzen-edu-store.rules /usr/share/vixzen-edu/ 2>/dev/null || true
-cp /tmp/vixzen-stage/edu/49-vixzen-edu-network.rules /usr/share/polkit-1/rules.d/ 2>/dev/null || true
-chmod 644 /usr/share/vixzen-edu/* /usr/share/polkit-1/rules.d/49-vixzen-edu-*.rules 2>/dev/null || true
-echo "VIXZEN EDU payload installed" || true
 %end
