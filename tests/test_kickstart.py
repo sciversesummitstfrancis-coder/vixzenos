@@ -3,6 +3,7 @@
 Catches the failure classes from real builds: missing stage payloads,
 dead GRUB defaults, EFI blindness, dconf breakage, edition drift.
 """
+import os
 import pathlib
 import re
 import subprocess
@@ -10,6 +11,8 @@ import sys
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 KS = REPO / "packaging" / "vixzenos.ks"
+KS_ALL = [REPO / "packaging" / "vixzenos.ks",
+           REPO / "packaging" / "vixzenos-edu.ks"]
 EDU = REPO / "packaging" / "vixzenos-edu.ks"
 BUILD = REPO / "build-vixzenos.sh"
 
@@ -103,6 +106,30 @@ def test_build_script_guards():
     assert "vix\" doctor" in txt or "command-center/vix" in txt
 
 
+def test_dconf_block_compiles():
+    """The dconf block is written into the image verbatim; if it does not
+    compile, the whole session loses every Vixzen setting (icons, cursor,
+    extensions) silently. Compile it here."""
+    import shutil
+    import subprocess
+    import tempfile
+    for ks in KS_ALL:
+        txt = ks.read_text()
+        m = re.search(r"cat > /etc/dconf/db/local\.d/00-vixzen <<'EOF'\n(.*?)\nEOF",
+                      txt, re.S)
+        assert m, f"{ks.name}: dconf block not found"
+        block = m.group(1)
+        with tempfile.TemporaryDirectory() as d:
+            src = os.path.join(d, "src")
+            os.makedirs(src)
+            with open(os.path.join(src, "00-vixzen"), "w") as f:
+                f.write(block)
+            r = subprocess.run(["dconf", "compile", os.path.join(d, "db"), src],
+                               capture_output=True, text=True)
+            assert r.returncode == 0, (
+                f"{ks.name}: dconf block does not compile: {r.stderr[:200]}")
+
+
 def test_version_consistency():
     ver = (REPO / "packaging" / "VERSION").read_text().strip()
     assert re.match(r"^\d+\.\d+$", ver), ver
@@ -123,5 +150,6 @@ if __name__ == "__main__":
     test_post_bash_syntax()
     test_edition_parity()
     test_build_script_guards()
+    test_dconf_block_compiles()
     test_version_consistency()
-    print("kickstart tests OK: 9 checks passed")
+    print("kickstart tests OK: 10 checks passed")

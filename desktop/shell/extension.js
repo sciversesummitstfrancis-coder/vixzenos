@@ -9,8 +9,11 @@ import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
+import Meta from 'gi://Meta';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {fuzzyScore} from './fuzzy.js';
+import {VixzenPalette} from './palette.js';
 
 const PINNED = [
     ['Files', 'folder-symbolic', 'org.gnome.Nautilus'],
@@ -25,6 +28,10 @@ const POWER = [
     ['Power Off', ['systemctl', 'poweroff'], 'Shut down now? Unsaved work could be lost.'],
     ['Log Out', ['gnome-session-quit', '--logout', '--no-prompt'], 'End your session? Open apps will close.'],
 ];
+
+function _giconSafe(names, fallback) {
+    try { return Gio.ThemedIcon.new_from_names([...names, fallback]); } catch (e) { return null; }
+}
 
 export default class VixzenShell extends Extension {
     enable() {
@@ -47,6 +54,22 @@ export default class VixzenShell extends Extension {
         this._launcher = new St.Button({ label: '◈ Vixzen', style: 'background-color: #7C7CFF; color: #0B0C12; border-radius: 12px; padding: 6px 18px; font-weight: bold; font-size: 15px;' });
         this._launcher.connect('clicked', () => this._toggleMenu());
         this._bar.add_child(this._launcher);
+
+        // Palette button: keyboard-first command surface (Super+Q)
+        const palBtn = new St.Button({ accessible_name: 'Vixzen Palette', style: 'padding: 4px 8px; border-radius: 8px;' });
+        const palIcon = new St.Icon({ gicon: _giconSafe(['system-search-symbolic'], 'edit-find-symbolic'), icon_size: 20 });
+        palIcon.set_style('color: #E8EAF2;');
+        palBtn.set_child(palIcon);
+        palBtn.connect('clicked', () => this._palette.toggle());
+        this._bar.add_child(palBtn);
+
+        // Palette instance + keybinding (schema: org.vixzen.shell)
+        this._palette = new VixzenPalette(this);
+        try {
+            Main.wm.addKeybinding('open-palette', this.getSettings(),
+                Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL,
+                () => this._palette.toggle());
+        } catch (e) {}
 
         // macOS-style magnification: hovered icon swells, neighbors swell
         // less by distance, all easing back on leave. GPU-cheap (a few
@@ -133,9 +156,19 @@ export default class VixzenShell extends Extension {
         const fill = (q) => {
             list.destroy_all_children();
             let n = 0;
-            for (const a of apps) {
+            let matches = apps;
+            if (q) {
+                // Fuzzy ranking (shared with the Vixzen Palette) instead of
+                // plain substring: 'vwm' finds 'Vixzen Web Menu', prefixes
+                // outrank scattered matches.
+                matches = apps
+                    .map(a => ({ a, s: fuzzyScore(q, a.get_display_name()) }))
+                    .filter(x => x.s !== null)
+                    .sort((x, y) => y.s - x.s)
+                    .map(x => x.a);
+            }
+            for (const a of matches) {
                 const name = a.get_display_name();
-                if (q && !name.toLowerCase().includes(q)) continue;
                 const b = new St.Button({ label: name, x_expand: true, style: 'text-align: left; border-radius: 10px; padding: 6px 10px;' });
                 b.connect('clicked', () => {
                     try { a.launch([], null); } catch (e) {}
@@ -188,6 +221,9 @@ export default class VixzenShell extends Extension {
     }
 
     disable() {
+        try { Main.wm.removeKeybinding('open-palette'); } catch (e) {}
+        this._palette?.close();
+        this._palette = null;
         if (this._tick) { GLib.source_remove(this._tick); this._tick = 0; }
         if (this._menu) { this._menu.destroy(); this._menu = null; }
         this._bar?.destroy();

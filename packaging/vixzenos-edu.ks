@@ -55,6 +55,7 @@ glib2-devel
 gnome-shell-extension-dash-to-dock
 gnome-shell-extension-user-theme
 gnome-shell-extension-blur-my-shell
+gnome-shell-extension-background-logo
 qemu-guest-agent
 cool-retro-term
 fastfetch
@@ -196,7 +197,11 @@ done
 mkdir -p /etc/dconf/db/local.d
 cat > /etc/dconf/db/local.d/00-vixzen <<'EOF'
 [org/gnome/shell]
-enabled-extensions=['blur-my-shell@aunetx', 'burn-my-windows@schneegans.github.com', 'caffeine@patapon.info', 'clipboard-indicator@tudmotu.com', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'compiz-windows-effect@hermes83.github.com', 'dash-to-dock@micxgx.gmail.com', 'desktop-cube@schneegans.github.com', 'ding@rastersoft.com', 'flypie@schneegans.github.com', 'gnome-wallpaper-engine@gjs.com', 'gsconnect@andyholmes.github.io', 'logomenu@aryan_k', 'magnific-launcher@gilsonf', 'monitor@astraext.github.io', 'rounded-window-corners@fxgn', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'vixzen-widgets@vixzen.os']', 'rounded-window-corners@fxgn', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'vixzen-widgets@vixzen.os']
+enabled-extensions=['blur-my-shell@aunetx', 'gnome-wallpaper-engine@gjs.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'ding@rastersoft.com', 'vixzen-widgets@vixzen.os', 'background-logo@fedorahosted.org', 'desktop-cube@schneegans.github.com', 'compiz-windows-effect@hermes83.github.com', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'dash-to-dock@micxgx.gmail.com', 'magnific-launcher@gilsonf', 'gsconnect@andyholmes.github.io', 'burn-my-windows@schneegans.github.com', 'flypie@schneegans.github.com', 'rounded-window-corners@fxgn', 'logomenu@aryan_k', 'clipboard-indicator@tudmotu.com', 'caffeine@patapon.info', 'monitor@astraext.github.io']
+[org/gnome/shell/extensions/background-logo]
+logo-file='/usr/share/vixzen-branding/logo.png'
+logo-opacity=0.12
+
 [org/gnome/shell/extensions/logo-menu]
 use-custom-icon=true
 custom-icon-path='/usr/share/vixzen-branding/logo.svg'

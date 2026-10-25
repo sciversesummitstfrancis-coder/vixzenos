@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.vixzen.shell" path="/org/vixzen/shell/">
+    <key name="open-palette" type="as">
+      <default>['&lt;Super&gt;q', '&lt;Ctrl&gt;&lt;Alt&gt;space']</default>
+      <summary>Keybinding that opens the Vixzen Palette</summary>
+      <description>Keyboard shortcut to open the keyboard-first command palette. Empty disables the shortcut (the bar button still works).</description>
+    </key>
+  </schema>
+</schemalist>
