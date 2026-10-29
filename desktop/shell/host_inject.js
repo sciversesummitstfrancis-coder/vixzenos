@@ -17,7 +17,7 @@ bar.set_size(mon.width, 46);
 bar.set_position(mon.x, mon.y + mon.height - 46);
 bar.set_style('background-color: rgba(27,30,42,0.96); border-top: 1px solid #2E3448; padding: 5px 10px; spacing: 8px;');
 
-const launcher = new St.Button({ label: 'Vixzen', style: 'background-color: #7C7CFF; color: #0B0C12; border-radius: 10px; padding: 4px 16px; font-weight: bold;' });
+const launcher = new St.Button({ label: 'Vixzen', style: 'background-color: #3B82F6; color: #0B0C12; border-radius: 10px; padding: 4px 16px; font-weight: bold;' });
 launcher.connect('clicked', () => { Main.overview.toggle(); });
 bar.add_child(launcher);
 

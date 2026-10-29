@@ -28,10 +28,10 @@ import {fuzzyScore, highlightedLabel} from './fuzzy.js';
 const MAX_ROWS = 12;
 
 const STYLE = {
-    surface: 'background-color: rgba(24,26,38,0.97); border: 1px solid rgba(255,255,255,0.14); border-top: 2px solid #4F46E5; border-radius: 20px; padding: 16px; spacing: 8px;',
+    surface: 'background-color: rgba(24,26,38,0.97); border: 1px solid rgba(255,255,255,0.14); border-top: 2px solid #3B82F6; border-radius: 20px; padding: 16px; spacing: 8px;',
     entry: 'border-radius: 12px; padding: 10px 14px; font-size: 16px;',
     row: 'border-radius: 10px; padding: 8px 12px; spacing: 10px;',
-    rowSelected: 'background-color: rgba(79,70,229,0.35); border-radius: 10px; padding: 8px 12px; spacing: 10px;',
+    rowSelected: 'background-color: rgba(59,130,246,0.35); border-radius: 10px; padding: 8px 12px; spacing: 10px;',
     title: 'color: #E8EAF2; font-size: 14px;',
     subtitle: 'color: #9CA3AF; font-size: 11px;',
     status: 'color: #9CA3AF; font-size: 13px; padding: 12px;',

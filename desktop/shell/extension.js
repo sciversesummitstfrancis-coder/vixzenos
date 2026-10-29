@@ -49,9 +49,9 @@ export default class VixzenShell extends Extension {
         this._bar = new St.BoxLayout({ name: 'vixzen-bar', vertical: false });
         this._bar.set_size(mon.width, this._barHeight);
         this._bar.set_position(mon.x, mon.y + mon.height - this._barHeight);
-        this._bar.set_style('background-color: rgba(27,30,42,0.96); border-top: 2px solid #4F46E5; padding: 6px 12px; spacing: 10px;');
+        this._bar.set_style('background-color: rgba(27,30,42,0.96); border-top: 2px solid #3B82F6; padding: 6px 12px; spacing: 10px;');
 
-        this._launcher = new St.Button({ label: '◈ Vixzen', style: 'background-color: #7C7CFF; color: #0B0C12; border-radius: 12px; padding: 6px 18px; font-weight: bold; font-size: 15px;' });
+        this._launcher = new St.Button({ label: '◈ Vixzen', style: 'background-color: #3B82F6; color: #0B0C12; border-radius: 12px; padding: 6px 18px; font-weight: bold; font-size: 15px;' });
         this._launcher.connect('clicked', () => this._toggleMenu());
         this._bar.add_child(this._launcher);
 
@@ -137,7 +137,7 @@ export default class VixzenShell extends Extension {
         const menu = new St.BoxLayout({ name: 'vixzen-menu', vertical: true });
         menu.set_size(W, H);
         menu.set_position(mon.x + 12, mon.y + mon.height - this._barHeight - H - 12);
-        menu.set_style('background-color: rgba(24,26,38,0.97); border: 1px solid rgba(255,255,255,0.14); border-top: 2px solid #4F46E5; border-radius: 20px; padding: 16px; spacing: 10px;');
+        menu.set_style('background-color: rgba(24,26,38,0.97); border: 1px solid rgba(255,255,255,0.14); border-top: 2px solid #3B82F6; border-radius: 20px; padding: 16px; spacing: 10px;');
 
         const search = new St.Entry({ hint_text: 'Search apps, settings, files…', style: 'border-radius: 12px; padding: 8px 12px; font-size: 15px;' });
         menu.add_child(search);
