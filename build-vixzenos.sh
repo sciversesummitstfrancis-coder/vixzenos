@@ -80,7 +80,11 @@ cp "$HERE"/apps/web-browser-blink/vixzen-blink "$HERE"/apps/web-browser-blink/*.
 cp "$HERE"/apps/web-browser/vixzen-web "$STAGE/web/" 2>/dev/null || true
 cp "$HERE"/apps/web-browser/*.desktop "$STAGE/web/" 2>/dev/null || true
 cp "$HERE"/assets/branding/vixzen-web.svg "$STAGE/" 2>/dev/null || true
-cp "$HERE"/desktop/shell/extension.js "$HERE"/desktop/shell/metadata.json "$STAGE/shell/" 2>/dev/null || fail=1
+cp "$HERE"/desktop/shell/extension.js "$HERE"/desktop/shell/palette.js \
+   "$HERE"/desktop/shell/fuzzy.js "$HERE"/desktop/shell/metadata.json "$STAGE/shell/" 2>/dev/null || fail=1
+mkdir -p "$STAGE/shell/schemas"
+cp "$HERE"/desktop/shell/schemas/*.gschema.xml "$STAGE/shell/schemas/" 2>/dev/null \
+  || log "[WARN] no shell gsettings schema"
 cp "$HERE"/desktop/shell/vendor/*.zip "$STAGE/shell/" 2>/dev/null || log "[WARN] no vendored shell extensions"
 mkdir -p "$STAGE/widgets"
 cp "$HERE"/desktop/widgets/* "$STAGE/widgets/" 2>/dev/null || log "[WARN] no vixzen widgets"

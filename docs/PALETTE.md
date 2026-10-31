@@ -56,9 +56,14 @@ Riding along (audit findings):
 
 ## Launch, configure, disable, uninstall
 
-- **Launch:** `Super+Q` (configurable), or the magnifier button on the bar.
+- **Launch:** `Super+Q` (configurable). The magnifier button on the bar only
+  exists when the bar is enabled (see below).
 - **Configure:** `gsettings set org.vixzen.shell open-palette "['<Super>q']"`
   (or clear it to disable the shortcut — the bar button keeps working).
+- **Bar on/off:** `gsettings set org.vixzen.shell show-bar true|false`.
+  Default is **false** on VixzenOS: `dash-to-dock` owns the taskbar and this
+  extension ships only the Palette, so there is never a second taskbar. Set it
+  to `true` to swap the dock for the Vixzen bar + Start Menu.
 - **Disable entirely:** toggle *Vixzen Shell* off in Extensions, or
   `gnome-extensions disable vixzen-shell@vixzen.os`.
 - **Uninstall:** `sudo ./scripts/install-palette.sh` stages *into* the tree, so

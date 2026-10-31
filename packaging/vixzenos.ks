@@ -158,11 +158,21 @@ cp /tmp/vixzen-stage/core/*.py /usr/lib/python3.14/site-packages/vixzen_core/ 2>
 # --- vixzen-update (M7): refresh payload from bundles, with backup ---
 cp /tmp/vixzen-stage/update/vixzen-update.sh /usr/local/bin/vixzen-update 2>/dev/null || true
 chmod 755 /usr/local/bin/vixzen-update 2>/dev/null || true
-# --- Vixzen Shell: the one-piece bar + attached menu, in-built ---
-mkdir -p /usr/share/gnome-shell/extensions/vixzen-shell@vixzen.os
-cp /tmp/vixzen-stage/shell/extension.js /tmp/vixzen-stage/shell/metadata.json \
+# --- Vixzen Shell: Palette (Super+Q) + optional bar, in-built ---
+mkdir -p /usr/share/gnome-shell/extensions/vixzen-shell@vixzen.os/schemas
+cp /tmp/vixzen-stage/shell/extension.js /tmp/vixzen-stage/shell/palette.js \
+   /tmp/vixzen-stage/shell/fuzzy.js /tmp/vixzen-stage/shell/metadata.json \
    /usr/share/gnome-shell/extensions/vixzen-shell@vixzen.os/ 2>/dev/null || true
+cp /tmp/vixzen-stage/shell/schemas/*.gschema.xml \
+   /usr/share/gnome-shell/extensions/vixzen-shell@vixzen.os/schemas/ 2>/dev/null || true
+# Extension.getSettings() resolves against the SYSTEM schema source, so the
+# schema must also land in /usr/share/glib-2.0/schemas or Super+Q silently dies.
+mkdir -p /usr/share/glib-2.0/schemas
+cp /tmp/vixzen-stage/shell/schemas/org.vixzen.shell.gschema.xml \
+   /usr/share/glib-2.0/schemas/ 2>/dev/null || true
 chmod 644 /usr/share/gnome-shell/extensions/vixzen-shell@vixzen.os/* 2>/dev/null || true
+glib-compile-schemas /usr/share/glib-2.0/schemas 2>/dev/null || true
+echo "VIXZEN: vixzen-shell installed"
 # --- Vixzen Widgets (top-bar weather + headlines) ---
 if [ -d /tmp/vixzen-stage/widgets ]; then
   mkdir -p /usr/share/gnome-shell/extensions/vixzen-widgets@vixzen.os
@@ -189,7 +199,7 @@ done
 mkdir -p /etc/dconf/db/local.d
 cat > /etc/dconf/db/local.d/00-vixzen <<'EOF'
 [org/gnome/shell]
-enabled-extensions=['blur-my-shell@aunetx', 'gnome-wallpaper-engine@gjs.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'ding@rastersoft.com', 'vixzen-widgets@vixzen.os', 'background-logo@fedorahosted.org', 'desktop-cube@schneegans.github.com', 'compiz-windows-effect@hermes83.github.com', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'dash-to-dock@micxgx.gmail.com', 'magnific-launcher@gilsonf', 'gsconnect@andyholmes.github.io', 'burn-my-windows@schneegans.github.com', 'flypie@schneegans.github.com', 'rounded-window-corners@fxgn', 'logomenu@aryan_k', 'clipboard-indicator@tudmotu.com', 'caffeine@patapon.info', 'monitor@astraext.github.io']
+enabled-extensions=['blur-my-shell@aunetx', 'gnome-wallpaper-engine@gjs.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'ding@rastersoft.com', 'vixzen-widgets@vixzen.os', 'vixzen-shell@vixzen.os', 'background-logo@fedorahosted.org', 'desktop-cube@schneegans.github.com', 'compiz-windows-effect@hermes83.github.com', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'dash-to-dock@micxgx.gmail.com', 'magnific-launcher@gilsonf', 'gsconnect@andyholmes.github.io', 'burn-my-windows@schneegans.github.com', 'flypie@schneegans.github.com', 'rounded-window-corners@fxgn', 'logomenu@aryan_k', 'clipboard-indicator@tudmotu.com', 'caffeine@patapon.info', 'monitor@astraext.github.io']
 [org/gnome/shell/extensions/background-logo]
 logo-file='/usr/share/vixzen-branding/logo.png'
 logo-opacity=0.12
@@ -215,8 +225,9 @@ command='ptyxis'
 binding='<Super>t'
 [org/gnome/shell/extensions/dash-to-dock]
 # Main taskbar: compact centered dock (macOS-style), dark, minimize-on-click.
-# vixzen-shell stays installed but off — enable it instead if you ever want
-# the Vixzen bar + Start Menu rather than this dock.
+# vixzen-shell runs alongside this dock with its bar hidden (show-bar=false),
+# so the Vixzen Palette (Super+Q) works without a second taskbar. Set
+# show-bar=true to swap this dock for the Vixzen bar + Start Menu.
 background-color='#1B1E2A'
 custom-background-color=true
 background-opacity=0.92
@@ -232,7 +243,7 @@ show-windows-preview=true
 name='Vixzen'
 [org/gnome/desktop/interface]
 icon-theme='Vixzen'
-accent-color='purple'
+accent-color='blue'
 color-scheme='prefer-dark'
 cursor-theme='WhiteSur-cursors'
 font-name='Cantarell 11'
@@ -243,6 +254,10 @@ logo='/usr/share/vixzen-branding/logo.svg'
 [org/gnome/desktop/background]
 picture-uri='file:///usr/share/backgrounds/vixzen/vixzen-burst-1920x1080.png'
 picture-uri-dark='file:///usr/share/backgrounds/vixzen/vixzen-burst-1920x1080.png'
+[org/vixzen/shell]
+# Palette only: the Vixzen bar/Start Menu stay off so dash-to-dock is the
+# single taskbar. Flip to true to replace the dock with the Vixzen bar.
+show-bar=false
 EOF
 dconf update 2>/dev/null || true
 cat > /usr/share/applications/os.vixzen.preview.desktop <<'EOF'

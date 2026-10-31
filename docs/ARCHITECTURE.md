@@ -25,7 +25,7 @@ and themes poorly — so we graduate the *ideas* (taskbar model, command engine)
 to GTK4 rather than copying the code verbatim.
 
 ## 3. Design tokens (original Vixzen identity)
-- Accent indigo `#4F46E5` (dark theme: `#7C7CFF`), secondary cyan `#06B6D4`
+- Accent blue `#3B82F6` (system `accent-color='blue'`), secondary cyan `#06B6D4`
 - Light: bg `#F2F3F7`, fg `#1A1D29`, taskbar `#E8EAF2`
 - Dark: bg `#12141C`, fg `#E8EAF2`, taskbar `#1B1E2A`
 - Radius 10px, 8pt spacing grid, system font (Cantarell), vector SVG icons.

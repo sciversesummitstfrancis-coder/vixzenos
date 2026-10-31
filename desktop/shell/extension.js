@@ -1,7 +1,8 @@
-/* Vixzen Shell v0.3 — ONE build: bottom bar + attached Start Menu.
- * Click the Vixzen badge → menu opens anchored above the bar (search,
- * pinned, categorized apps, user + power with confirm dialogs).
- * No separate window: everything lives in this file, like Windows 11.
+/* Vixzen Shell v0.4 — Palette-first build.
+ * Default desktop is dash-to-dock; this extension ships the keyboard-first
+ * Vixzen Palette (Super+Q). Set org.vixzen.shell show-bar=true to also get
+ * the bottom bar + attached Start Menu (search, pinned, categorized apps,
+ * user + power with confirm dialogs).
  * Loads on next session start (Wayland rule). Staged and syntax-checked.
  */
 import St from 'gi://St';
@@ -45,7 +46,26 @@ export default class VixzenShell extends Extension {
             }
         } catch (e) { this._vixPerf = 'balanced'; }
 
-        // ---- bottom bar ----
+        // ---- Palette + keybinding (always active) ----
+        this._palette = new VixzenPalette(this);
+        try {
+            Main.wm.addKeybinding('open-palette', this.getSettings(),
+                Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL,
+                () => this._palette.toggle());
+        } catch (e) {}
+
+        // ---- Start Menu state (kept even when the bar is hidden) ----
+        this._bar = null;
+        this._menu = null;
+        try { this._username = GLib.get_user_name(); } catch (e) { this._username = 'user'; }
+
+        // ---- bottom bar (optional) ----
+        // Off by default: dash-to-dock owns the taskbar on VixzenOS and the
+        // Palette is the part we ship. Set show-bar=true to swap the dock for
+        // the Vixzen bar + Start Menu.
+        if (!this.getSettings().get_boolean('show-bar'))
+            return;
+
         this._bar = new St.BoxLayout({ name: 'vixzen-bar', vertical: false });
         this._bar.set_size(mon.width, this._barHeight);
         this._bar.set_position(mon.x, mon.y + mon.height - this._barHeight);
@@ -62,14 +82,6 @@ export default class VixzenShell extends Extension {
         palBtn.set_child(palIcon);
         palBtn.connect('clicked', () => this._palette.toggle());
         this._bar.add_child(palBtn);
-
-        // Palette instance + keybinding (schema: org.vixzen.shell)
-        this._palette = new VixzenPalette(this);
-        try {
-            Main.wm.addKeybinding('open-palette', this.getSettings(),
-                Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL,
-                () => this._palette.toggle());
-        } catch (e) {}
 
         // macOS-style magnification: hovered icon swells, neighbors swell
         // less by distance, all easing back on leave. GPU-cheap (a few
@@ -103,10 +115,6 @@ export default class VixzenShell extends Extension {
             try { this._clock.set_text(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })); } catch (e) {}
             return GLib.SOURCE_CONTINUE;
         });
-
-        // ---- attached Start Menu (built once, shown/hidden) ----
-        this._menu = null;
-        try { this._username = GLib.get_user_name(); } catch (e) { this._username = 'user'; }
     }
 
     _magnify(hot) {

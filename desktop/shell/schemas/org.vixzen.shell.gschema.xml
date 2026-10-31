@@ -6,5 +6,10 @@
       <summary>Keybinding that opens the Vixzen Palette</summary>
       <description>Keyboard shortcut to open the keyboard-first command palette. Empty disables the shortcut (the bar button still works).</description>
     </key>
+    <key name="show-bar" type="b">
+      <default>false</default>
+      <summary>Show the Vixzen bottom bar and Start Menu</summary>
+      <description>Off by default so dash-to-dock owns the taskbar and only the Palette is active. Turn on to replace the dock with the Vixzen bar, Start Menu, and pinned apps.</description>
+    </key>
   </schema>
 </schemalist>

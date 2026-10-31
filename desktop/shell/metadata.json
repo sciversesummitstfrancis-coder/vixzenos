@@ -1,8 +1,8 @@
 {
   "uuid": "vixzen-shell@vixzen.os",
   "name": "Vixzen Shell",
-  "description": "Bottom taskbar + attached Start Menu + keyboard-first Vixzen Palette (windows, apps, quick actions).",
+  "description": "Vixzen Palette — keyboard-first command surface (windows, apps, quick actions) with optional bottom bar + Start Menu.",
   "shell-version": ["50"],
   "settings-schema": "org.vixzen.shell",
-  "version": 3
+  "version": 4
 }

@@ -130,8 +130,8 @@ They insert repo-root `shared/` and `preview/src/` onto `sys.path`, and isolate
    theirs and the project is unaffiliated — do not ship or imply endorsement.
 5. **`scripts/de-fedora.sh` exists to scrub Fedora branding.** Keep changes
    de-brandable.
-6. **Design tokens are fixed** (`docs/ARCHITECTURE.md` §3): accent indigo
-   `#4F46E5` (dark `#7C7CFF`), cyan `#06B6D4`, radius 10px, 8pt spacing grid,
+6. **Design tokens are fixed** (`docs/ARCHITECTURE.md` §3): accent blue
+   `#3B82F6` (system `accent-color='blue'`), cyan `#06B6D4`, radius 10px, 8pt spacing grid,
    Cantarell, SVG icons, no heavy blur/3D by default.
 
 ## 7. Adding something new

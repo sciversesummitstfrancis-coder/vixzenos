@@ -29,6 +29,12 @@ install -d "$SHELL_DIR/schemas"
 install -m 644 "$REPO/desktop/shell/extension.js" "$REPO/desktop/shell/palette.js" \
               "$REPO/desktop/shell/fuzzy.js" "$REPO/desktop/shell/metadata.json" "$SHELL_DIR/"
 install -m 644 "$REPO/desktop/shell/schemas/org.vixzen.shell.gschema.xml" "$SHELL_DIR/schemas/"
+# Extension.getSettings() resolves against the SYSTEM schema source, not the
+# extension's own schemas/ dir — without this copy Super+Q throws and is
+# swallowed by the addKeybinding try/catch.
+install -d "$TREE/usr/share/glib-2.0/schemas"
+install -m 644 "$REPO/desktop/shell/schemas/org.vixzen.shell.gschema.xml" \
+               "$TREE/usr/share/glib-2.0/schemas/"
 
 say "staging vixzen-widgets (fixes dangling dconf reference)"
 install -d "$WIDG_DIR"
@@ -37,7 +43,8 @@ install -m 644 "$REPO/desktop/widgets/extension.js" "$REPO/desktop/widgets/metad
 say "staging background-logo from host (parity) + Vixzen logo watermark"
 if [ -d /usr/share/gnome-shell/extensions/background-logo@fedorahosted.org ]; then
     install -d "$BLOGO_DIR"
-    cp -r /usr/share/gnome-shell/extensions/background-logo@federahosted.org/. "$BLOGO_DIR/"
+    cp -r /usr/share/gnome-shell/extensions/background-logo@fedorahosted.org/. "$BLOGO_DIR/" \
+      || { echo "COPY FAILED: background-logo"; exit 1; }
 else
     say "   WARNING: background-logo not present on host — skipping (parity test will flag it)"
 fi
@@ -59,6 +66,11 @@ grep -q "extensions/background-logo\]" "$DCONF_KEYFILE" || cat >> "$DCONF_KEYFIL
 logo-file='/usr/share/vixzen-branding/logo.png'
 logo-opacity=0.12
 EOF
+
+say "setting system accent to blue (was purple)"
+sed -i "s/^accent-color='[^']*'/accent-color='blue'/" "$DCONF_KEYFILE"
+grep -q "^accent-color='blue'" "$DCONF_KEYFILE" \
+  || { echo "ACCENT UPDATE FAILED"; exit 1; }
 dconf compile "$TREE/etc/dconf/db/local" "$TREE/etc/dconf/db/local.d" \
   || { echo "DCONF COMPILE FAILED"; exit 1; }
 
