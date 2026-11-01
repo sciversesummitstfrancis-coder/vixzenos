@@ -38,9 +38,9 @@ def load_config():
     except Exception:
         pass
     return {"theme": "dark", "perf": "balanced", "wallpaper": "Indigo Dusk",
-            "accent": "Vixzen Indigo"}
+            "accent": "Vixzen Blue"}
 
-def save_config(theme, perf, wallpaper, accent="Vixzen Indigo"):
+def save_config(theme, perf, wallpaper, accent="Vixzen Blue"):
     try:
         os.makedirs(os.path.dirname(CONFIG), exist_ok=True)
         with open(CONFIG, "w") as f:
@@ -56,7 +56,7 @@ class PreviewWindow(Adw.ApplicationWindow):
         self.set_default_size(1100, 700)
         self.theme, self.perf = cfg["theme"], cfg["perf"]
         self.wallpaper = cfg.get("wallpaper", "Indigo Dusk")
-        self.accent = cfg.get("accent", "Vixzen Indigo")
+        self.accent = cfg.get("accent", "Vixzen Blue")
         self.active_apps = set()  # taskbar running indicators (mock)
         # Prefer the custom Vixzen globe for Browser when the icon theme has it.
         global APPS

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VixzenOS Mobile — coded concept (real design tokens)</title>
+<style>
+  :root{
+    --bg:#12141C; --fg:#E8EAF2; --taskbar:#1B1E2A; --card:#1E2230;
+    --accent:#3B82F6; --accent-fg:#0B0C12; --secondary:#22D3EE; --border:#2E3448;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    min-height:100vh; background:radial-gradient(1200px 700px at 70% 10%, #1a1d33 0%, var(--bg) 55%);
+    color:var(--fg); font-family:'Cantarell','Segoe UI',system-ui,sans-serif;
+    display:flex; gap:56px; align-items:center; justify-content:center; flex-wrap:wrap; padding:42px 24px;
+  }
+  .label{width:100%; text-align:center; margin-bottom:4px}
+  .label h1{font-size:20px; font-weight:600; letter-spacing:.4px}
+  .label p{font-size:12.5px; opacity:.62; margin-top:5px}
+  .badge{display:inline-block; margin-top:10px; padding:4px 12px; border-radius:999px;
+    border:1px solid var(--border); font-size:11px; opacity:.75}
+  .phone{
+    width:320px; height:668px; border-radius:36px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(220px 190px at 50% 108%, rgba(59,130,246,.35) 0%, rgba(59,130,246,.08) 45%, transparent 70%),
+      linear-gradient(165deg, #1a1d33 0%, var(--bg) 55%, #0a1628 100%);
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 26px 70px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.10);
+    flex:0 0 auto;
+  }
+  .status{display:flex; justify-content:space-between; align-items:center;
+    padding:14px 22px 6px; font-size:12px; opacity:.9}
+  .status .icons{display:flex; gap:5px; align-items:center}
+  .status .icons i{width:14px; height:9px; border-radius:2px; background:var(--fg); opacity:.85; display:inline-block}
+  .status .icons i.batt{width:20px}
+  .clock-big{text-align:center; margin-top:34px; font-size:52px; font-weight:300; letter-spacing:1px}
+  .date-big{text-align:center; font-size:12.5px; opacity:.62; margin-top:5px}
+  .heropill{margin:22px auto 0; width:82%; padding:11px 16px; border-radius:999px;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(12px); font-size:13px; color:rgba(232,234,242,.75);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+  .heropill b{color:var(--secondary); font-weight:500}
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px 10px; padding:34px 26px 0}
+  .app{display:flex; flex-direction:column; align-items:center; gap:7px}
+  .app .ic{width:54px; height:54px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    font-size:24px; background:var(--card); border:1px solid rgba(255,255,255,.09);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 6px 16px rgba(0,0,0,.32)}
+  .app span{font-size:10.5px; opacity:.8}
+  .app.hl .ic{background:var(--accent); border-color:rgba(255,255,255,.28); color:var(--accent-fg)}
+  .dock{position:absolute; left:14px; right:14px; bottom:26px;
+    display:flex; justify-content:space-around; align-items:center;
+    padding:11px 12px; border-radius:22px;
+    background:rgba(27,30,42,.62); border:1px solid rgba(255,255,255,.13);
+    border-top-color:rgba(255,255,255,.30);
+    backdrop-filter:blur(14px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.16), 0 12px 30px rgba(0,0,0,.44)}
+  .dock .ic{width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-size:19px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.10)}
+  .dock .ic.on{background:var(--accent); color:var(--accent-fg); border-color:rgba(255,255,255,.3)}
+  .gesture{position:absolute; bottom:9px; left:50%; transform:translateX(-50%);
+    width:88px; height:4px; border-radius:99px; background:rgba(232,234,242,.85)}
+  .wordmark{position:absolute; top:150px; left:0; right:0; text-align:center;
+    font-size:64px; font-weight:700; letter-spacing:6px; color:rgba(232,234,242,.055); pointer-events:none}
+  /* palette screen */
+  .scrim{position:absolute; inset:0; background:rgba(10,12,20,.55); backdrop-filter:blur(5px)}
+  .palette{position:absolute; left:16px; right:16px; top:78px; padding:16px 14px 12px; border-radius:20px;
+    background:var(--card); border:1px solid rgba(255,255,255,.15); border-top-color:rgba(255,255,255,.38);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 18px 48px rgba(0,0,0,.55)}
+  .palette input{width:100%; border:none; outline:none; background:rgba(10,12,20,.55); color:var(--fg);
+    border-radius:999px; padding:11px 16px; font-size:14px; font-family:inherit;
+    border:1px solid rgba(255,255,255,.16); border-top-color:rgba(255,255,255,.4)}
+  .kicker{font-size:10px; letter-spacing:1.4px; text-transform:uppercase; opacity:.5; margin:14px 4px 8px}
+  .hit{display:flex; align-items:center; gap:11px; padding:9px 10px; border-radius:12px; font-size:13px}
+  .hit.act{background:rgba(59,130,246,.16); box-shadow:inset 0 0 0 1px rgba(59,130,246,.55)}
+  .hit .dot{width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    font-size:15px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.10)}
+  .hit.dimmer{opacity:.55}
+  .hit small{margin-left:auto; font-size:10.5px; opacity:.55}
+  .footer-note{width:100%; text-align:center; font-size:11.5px; opacity:.5; line-height:1.7; max-width:760px}
+</style>
+</head>
+<body>
+  <div class="label">
+    <h1>VixzenOS Mobile — coded concept</h1>
+    <p>Built from the same design tokens the desktop preview and apps use · accent #3B82F6 · radius 14+ · 8pt grid</p>
+    <span class="badge">concept mock · not a running OS · designed for GNOME Shell mobile</span>
+  </div>
+
+  <div class="phone">
+    <div class="status"><span>09:41</span><span class="icons"><i></i><i></i><i class="batt"></i></span></div>
+    <div class="clock-big">09:41</div>
+    <div class="date-big">Sun Nov 1 2026</div>
+    <div class="heropill">Type <b>⌘Q</b> or tap the badge — the Palette is here too</div>
+    <div class="wordmark">VIXZEN</div>
+    <div class="grid">
+      <div class="app"><div class="ic">📁</div><span>Files</span></div>
+      <div class="app hl"><div class="ic">🌐</div><span>Web</span></div>
+      <div class="app"><div class="ic">⌨️</div><span>Terminal</span></div>
+      <div class="app"><div class="ic">💬</div><span>Messages</span></div>
+      <div class="app"><div class="ic">📷</div><span>Camera</span></div>
+      <div class="app"><div class="ic">⚙️</div><span>Settings</span></div>
+      <div class="app"><div class="ic">🎵</div><span>Music</span></div>
+      <div class="app"><div class="ic">📦</div><span>Store</span></div>
+    </div>
+    <div class="dock">
+      <div class="ic">📞</div><div class="ic">💬</div><div class="ic on">🌐</div><div class="ic">📷</div><div class="ic">📁</div>
+    </div>
+    <div class="gesture"></div>
+  </div>
+
+  <div class="phone">
+    <div class="status"><span>09:41</span><span class="icons"><i></i><i></i><i class="batt"></i></span></div>
+    <div class="scrim"></div>
+    <div class="palette">
+      <input value="fir" disabled>
+      <div class="kicker">windows</div>
+      <div class="hit act"><div class="dot">🌐</div>Vixzen Web — VixzenOS.org<small>enter · focus</small></div>
+      <div class="hit dimmer"><div class="dot">📁</div>Vixzen Files — pkg list<small>2nd match</small></div>
+      <div class="kicker">apps</div>
+      <div class="hit dimmer"><div class="dot">🔥</div>Firefox<small>app · launch</small></div>
+      <div class="kicker">quick actions</div>
+      <div class="hit dimmer"><div class="dot">🌙</div>Toggle dark mode<small>1 of 6</small></div>
+    </div>
+    <div class="dock">
+      <div class="ic">📞</div><div class="ic">💬</div><div class="ic on">🌐</div><div class="ic">📷</div><div class="ic">📁</div>
+    </div>
+    <div class="gesture"></div>
+  </div>
+
+  <p class="footer-note">
+    Same surfaces that make the desktop Vixzen: the Palette (top, keyboard-first fuzzy search), the dock (bottom,
+    already a GNOME extension we ship), and tokens shared verbatim with the desktop preview. On a phone the dock
+    shrinks, the Palette gains a hardware-key trigger, and windows become one-per-screen — that mapping is the
+    actual rung-2 work described in docs/MOBILE.md.
+  </p>
+</body>
+</html>
