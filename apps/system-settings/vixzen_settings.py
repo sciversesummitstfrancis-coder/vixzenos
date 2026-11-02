@@ -17,18 +17,23 @@ from vixzen_core import apply_display, load, provider_for, refresh
 from vixzen_core import save as save_cfg
 
 DEFAULTS = {"theme": "dark", "perf": "balanced", "wallpaper": "Indigo Dusk",
-            "accent": "Vixzen Indigo"}
+            "accent": "Vixzen Blue"}
 
 class Win(Adw.PreferencesWindow):
     def __init__(self, app):
         super().__init__(application=app, title="Vixzen Settings")
         self.set_default_size(640, 500)
         cfg = load("settings", DEFAULTS)
+        # Migrate configs written before the blue rebrand ("Vixzen Indigo").
+        if cfg.get("accent") not in ACCENTS:
+            cfg["accent"] = "Vixzen Blue"
+        if cfg.get("wallpaper") not in WALLPAPERS:
+            cfg["wallpaper"] = "Indigo Dusk"
         self.cfg = cfg
         css = provider_for(cfg.get("theme", "dark"),
                            cfg.get("perf", "balanced"),
                            cfg.get("wallpaper", "Indigo Dusk"),
-                           cfg.get("accent", "Vixzen Indigo"))
+                           cfg.get("accent", "Vixzen Blue"))
         apply_display(css)
         self.css = css
 
@@ -56,7 +61,7 @@ class Win(Adw.PreferencesWindow):
         ac.set_title("Brand accent")
         ac.set_model(Gtk.StringList.new(list(ACCENTS)))
         try:
-            ac.set_selected(list(ACCENTS).index(cfg.get("accent", "Vixzen Indigo")))
+            ac.set_selected(list(ACCENTS).index(cfg.get("accent", "Vixzen Blue")))
         except ValueError:
             ac.set_selected(0)
         ac.connect("notify::selected", self.on_accent)
@@ -155,7 +160,7 @@ class Win(Adw.PreferencesWindow):
     def restyle(self):
         refresh(self.css, self.cfg["theme"], self.cfg["perf"],
                 self.cfg["wallpaper"],
-                self.cfg.get("accent", "Vixzen Indigo"))
+                self.cfg.get("accent", "Vixzen Blue"))
         save_cfg("settings", self.cfg)
 
     def on_accent(self, r, _p):
@@ -339,12 +344,22 @@ class Win(Adw.PreferencesWindow):
 
     def sysinfo(self):
         out = []
-        for f, cmd in (("os", ["cat", "/etc/fedora-release"]),
+        # VixzenOS identity first; os-release is the fallback on a non-image host.
+        for f, cmd in (("os", ["sh", "-c",
+                               "cat /etc/vixzen-release 2>/dev/null || cat /etc/os-release"]),
                        ("cpu", ["lscpu"]),
                        ("mem", ["free", "-h"])):
             try:
                 r = subprocess.run(cmd, capture_output=True, text=True, timeout=3)
-                out.append(r.stdout.splitlines()[0] if f == "cpu" else r.stdout.strip()[:200])
+                if f == "os":
+                    for line in r.stdout.splitlines():
+                        if line.startswith("PRETTY_NAME="):
+                            out.append(line.split("=", 1)[1].strip().strip('"'))
+                            break
+                    else:
+                        out.append(r.stdout.splitlines()[0] if r.stdout.strip() else "VixzenOS")
+                else:
+                    out.append(r.stdout.splitlines()[0] if f == "cpu" else r.stdout.strip()[:200])
             except Exception as e:
                 out.append(f"{f}: {e}")
         return " | ".join(out)

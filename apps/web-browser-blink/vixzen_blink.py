@@ -118,21 +118,21 @@ QTabWidget::pane { border: 1px solid rgba(255,255,255,36); border-radius: 14px;
     background: #161927; }
 QTabBar::tab { background: rgba(255,255,255,14); border: 1px solid rgba(255,255,255,28);
     border-top-left-radius: 10px; border-top-right-radius: 10px; padding: 6px 14px; }
-QTabBar::tab:selected { background: rgba(124,124,255,70); }
+QTabBar::tab:selected { background: rgba(96,165,250,70); }
 QLineEdit#omnibox { border-radius: 16px; padding: 7px 16px; font-size: 14px;
     background: rgba(10,12,20,150); border: 1px solid rgba(255,255,255,45); color: #E8EAF2; }
-QLineEdit#omnibox:focus { border: 1px solid #7C7CFF; }
+QLineEdit#omnibox:focus { border: 1px solid #60A5FA; }
 QToolButton, QPushButton { border-radius: 12px; padding: 6px; }
 QToolBar { spacing: 4px; }
 QLabel#status { color: rgba(232,234,242,160); padding: 2px 10px; }
 QFrame#rail { background: #14161F; border-radius: 16px; }
 QFrame#rail QToolButton { border-radius: 999px; font-size: 16px; padding: 8px;
   color: #C9CEE0; background: transparent; border: 1px solid transparent; }
-QFrame#rail QToolButton:hover { background: rgba(124,124,255,90); }
-QFrame#rail QToolButton:checked { background: rgba(124,124,255,120);
+QFrame#rail QToolButton:hover { background: rgba(96,165,250,90); }
+QFrame#rail QToolButton:checked { background: rgba(96,165,250,120);
   border: 1px solid rgba(255,255,255,60); color: #FFFFFF; }
 QProgressBar { border: 0; background: transparent; height: 3px; text-align: center; }
-QProgressBar::chunk { background: #7C7CFF; }
+QProgressBar::chunk { background: #60A5FA; }
 """
 
 

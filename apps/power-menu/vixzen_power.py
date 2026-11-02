@@ -34,18 +34,18 @@ CSS = """
 .vix-search { border-radius: 16px; padding: 9px 16px; font-size: 15px;
   background-color: rgba(255,255,255,0.10);
   border: 1px solid rgba(255,255,255,0.16); }
-.vix-search:focus { border-color: #7C7CFF; }
+.vix-search:focus { border-color: #60A5FA; }
 .vix-section { color: #E8EAF2; font-weight: bold; letter-spacing: 1px; }
 .vix-user { color: #FFFFFF; font-weight: bold; }
 .vix-showall { border-radius: 10px; padding: 4px 12px;
   background-color: rgba(255,255,255,0.10); }
 .vix-tile { border-radius: 15px; padding: 12px 4px; border: 1px solid transparent; }
-.vix-tile:hover { background-color: rgba(124,124,255,0.30);
-  border-color: rgba(124,124,255,0.55); }
-.vix-tile:active { background-color: rgba(124,124,255,0.45); }
+.vix-tile:hover { background-color: rgba(96,165,250,0.30);
+  border-color: rgba(96,165,250,0.55); }
+.vix-tile:active { background-color: rgba(96,165,250,0.45); }
 .vix-rec { border-radius: 12px; padding: 8px 10px; }
-.vix-rec:hover { background-color: rgba(124,124,255,0.25); }
-.vix-avatar { background-color: #4F46E5; color: white; font-weight: bold;
+.vix-rec:hover { background-color: rgba(96,165,250,0.25); }
+.vix-avatar { background-color: #3B82F6; color: white; font-weight: bold;
   border-radius: 999px; }
 .vix-powerbtn { border-radius: 999px; padding: 8px 12px;
   background-color: rgba(255,255,255,0.10); }

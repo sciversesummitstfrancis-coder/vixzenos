@@ -478,7 +478,7 @@ class BrowserWin(Adw.ApplicationWindow):
 <title>{htmlmod.escape(title)} — Vixzen Web</title>
 <style>
 body{{font-family:-apple-system,Cantarell,system-ui,sans-serif;margin:0;min-height:100vh;color:#fff;
-background:radial-gradient(900px 500px at 50% 0%,rgba(79,70,229,.45),transparent 60%),
+background:radial-gradient(900px 500px at 50% 0%,rgba(59,130,246,.45),transparent 60%),
 linear-gradient(180deg,#171a30,#0b0e1a);}}
 .wrap{{max-width:680px;margin:0 auto;padding:40px 18px 60px}}
 .nav{{display:flex;gap:14px;margin-bottom:20px;font-size:14px}}.nav a{{color:#a5b4ff;text-decoration:none}}
@@ -488,7 +488,7 @@ border:1px solid rgba(255,255,255,.2);border-top-color:rgba(255,255,255,.45);
 box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}}
 h1{{font-size:24px;margin:0 0 4px}}h2{{font-size:16px;margin:0 0 8px}}.sub{{opacity:.65;font-size:13px}}
 a.btn{{display:inline-block;margin:4px 6px 4px 0;padding:8px 16px;border-radius:999px;text-decoration:none;
-color:#fff;background:rgba(124,124,255,.35);border:1px solid rgba(255,255,255,.3);
+color:#fff;background:rgba(96,165,250,.35);border:1px solid rgba(255,255,255,.3);
 border-top-color:rgba(255,255,255,.55)}}
 a.btn.off{{background:rgba(255,255,255,.08)}}
 .row{{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}}
@@ -782,7 +782,7 @@ background:rgba(0,0,0,.28);color:#fff;font-size:14px;outline:0}}
         html = (f"<body style='font-family:sans-serif;background:#12141C;color:#E8EAF2;"
                 f"text-align:center;padding:60px'><h2>Couldn't load {uri}</h2>"
                 f"<p style='opacity:.7'>{error}</p>"
-                f"<p><a style='color:#7C7CFF' href='{HOME_URL}'>← Back to speed dial</a></p></body>")
+                f"<p><a style='color:#60A5FA' href='{HOME_URL}'>← Back to speed dial</a></p></body>")
         view.load_alternate_html(html, uri, None)
         return True
 

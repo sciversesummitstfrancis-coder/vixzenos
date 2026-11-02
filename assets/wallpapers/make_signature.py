@@ -22,7 +22,7 @@ def font(size, bold=False):
 
 img = Image.new("RGB", (W, H))
 px = img.load()
-top, bot = (79, 70, 229), (2, 6, 23)
+top, bot = (59, 130, 246), (2, 6, 23)
 for y in range(H):
     c = lerp(top, bot, y / H)
     for x in range(0, W, 2):
@@ -30,13 +30,13 @@ for y in range(H):
         px[x + 1, y] = c
 d = ImageDraw.Draw(img, "RGBA")
 d.ellipse([1330, 60, 1730, 460], fill=(34, 211, 238, 38))
-d.ellipse([180, 630, 720, 1170], fill=(124, 124, 255, 34))
+d.ellipse([180, 630, 720, 1170], fill=(96, 165, 250, 34))
 d.ellipse([-140, -140, 300, 300], fill=(255, 255, 255, 14))
 
 # Logo badge (rounded square + V + dot), centered upper-middle
 S, lx, ly = 220, (W - 220) // 2, 250
-d.rounded_rectangle([lx, ly, lx + S, ly + S], radius=48, fill=(20, 18, 60, 255),
-                    outline=(124, 124, 255, 255), width=4)
+d.rounded_rectangle([lx, ly, lx + S, ly + S], radius=48, fill=(11, 18, 32, 255),
+                    outline=(96, 165, 250, 255), width=4)
 d.line([(lx + 52, ly + 62), (lx + 110, ly + 158), (lx + 168, ly + 62)],
        fill="white", width=22, joint="curve")
 d.ellipse([lx + 100, ly + 52, lx + 120, ly + 72], fill=(34, 211, 238, 255))

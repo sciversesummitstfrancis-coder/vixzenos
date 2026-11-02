@@ -14,7 +14,7 @@ def lerp(a, b, t):
 
 def background():
     w, h = 1280, 720
-    top, bot = (79, 70, 229), (2, 6, 23)  # indigo -> near-black
+    top, bot = (59, 130, 246), (2, 6, 23)  # Vixzen Blue -> near-black
     img = Image.new("RGB", (w, h))
     px = img.load()
     for y in range(h):
@@ -23,7 +23,7 @@ def background():
             px[x, y] = c
     d = ImageDraw.Draw(img, "RGBA")
     d.ellipse([880, 40, 1140, 300], fill=(34, 211, 238, 40))
-    d.ellipse([120, 420, 480, 780], fill=(124, 124, 255, 36))
+    d.ellipse([120, 420, 480, 780], fill=(96, 165, 250, 36))
     d.text((60, 600), "VixzenOS", fill=(255, 255, 255, 230))
     d.text((62, 640), "Lightweight  -  Graphical  -  Yours", fill=(200, 200, 220, 200))
     img.save(os.path.join(HERE, "background.png"))
@@ -33,7 +33,7 @@ def logo():
     s = 256
     img = Image.new("RGBA", (s, s), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    d.rounded_rectangle([16, 16, s - 16, s - 16], radius=52, fill=(79, 70, 229, 255))
+    d.rounded_rectangle([16, 16, s - 16, s - 16], radius=52, fill=(59, 130, 246, 255))
     d.line([(68, 80), (128, 184), (188, 80)], fill="white", width=24, joint="curve")
     d.ellipse([116, 68, 140, 92], fill=(34, 211, 238, 255))
     img.save(os.path.join(HERE, "logo.png"))
@@ -45,7 +45,7 @@ def frames():
     live in assets/boot/frames-video/.
     Same filenames/count/size as stock spinner (36 animation + 30 throbber,
     32x32 RGBA) so the theme mechanics are unchanged — only the look is ours:
-    an indigo comet with a cyan glow trail (progress) + a pulsing Vixzen ring
+    a Vixzen Blue comet with a cyan glow trail (progress) + a pulsing Vixzen ring
     (throbber). Output: assets/boot/frames/.
     """
     out = os.path.join(HERE, "frames")
@@ -67,7 +67,7 @@ def frames():
         hx = cx + 10 * math.cos(ang)
         hy = cy + 10 * math.sin(ang)
         d.ellipse([hx - 3.4, hy - 3.4, hx + 3.4, hy + 3.4],
-                  fill=(124, 124, 255, 255))
+                  fill=(96, 165, 250, 255))
         d.ellipse([hx - 1.6, hy - 1.6, hx + 1.6, hy + 1.6],
                   fill=(255, 255, 255, 255))
         img.save(os.path.join(out, f"animation-{i + 1:04d}.png"))
@@ -79,7 +79,7 @@ def frames():
         alpha = int(220 * (1 - t))
         w = 3 if t < 0.5 else 2
         d.ellipse([cx - r, cy - r, cx + r, cy + r],
-                  outline=(79, 70, 229, alpha), width=w)
+                  outline=(59, 130, 246, alpha), width=w)
         d.ellipse([cx - 3, cy - 3, cx + 3, cy + 3],
                   fill=(34, 211, 238, 255))
         img.save(os.path.join(out, f"throbber-{i + 1:04d}.png"))

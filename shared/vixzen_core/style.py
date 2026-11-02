@@ -8,7 +8,7 @@ from design import LIQUID_CARD, css_for
 
 
 def provider_for(theme="dark", perf="balanced", wallpaper="Indigo Dusk",
-                 accent="Vixzen Indigo", extra=""):
+                 accent="Vixzen Blue", extra=""):
     """Build a Gtk.CssProvider with Vixzen tokens. Imports Gtk lazily so
     this module stays importable headless (tests)."""
     import gi
@@ -20,7 +20,7 @@ def provider_for(theme="dark", perf="balanced", wallpaper="Indigo Dusk",
 
 
 def refresh(provider, theme="dark", perf="balanced",
-            wallpaper="Indigo Dusk", accent="Vixzen Indigo", extra=""):
+            wallpaper="Indigo Dusk", accent="Vixzen Blue", extra=""):
     """Reload a live-attached provider in place (theme switching)."""
     provider.load_from_data((css_for(theme, perf, wallpaper, accent)
                              + LIQUID_CARD + extra).encode())

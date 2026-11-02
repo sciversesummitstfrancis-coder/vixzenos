@@ -14,9 +14,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 THEME = os.path.join(HERE, "Vixzen")
 BACKUP = os.path.join(HERE, "..", "Vixzen-classic")
 
-# Indigo/blue/steel -> neon green family. Whites, semantic reds/ambers and
+# Blue/steel -> neon green family. Whites, semantic reds/ambers and
 # existing greens stay exactly as they are.
 NEON = {
+    "#3B82F6": "#00E676", "#60A5FA": "#6EE7B7",
+    "#2563EB": "#00A651", "#1E40AF": "#065F46",
     "#4F46E5": "#00E676", "#7C7CFF": "#6EE7B7",
     "#6BB6FF": "#4ADE80", "#1E6FEB": "#00A651",
     "#174A9E": "#065F46", "#0B3D91": "#052E16",

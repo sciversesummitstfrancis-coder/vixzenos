@@ -51,7 +51,7 @@ def main():
     W = "stroke='#FFFFFF' stroke-width='2.6' fill='none' opacity='0.95'"
     F = "fill='#FFFFFF' opacity='0.95'"
     # -- apps: white glyph on brand gradients --
-    app("vixzen-chrome.svg", "#4F46E5", "#06B6D4",
+    app("vixzen-chrome.svg", "#3B82F6", "#06B6D4",
         "<path d='M24 13 A11 11 0 0 1 33.5 29.5' stroke='#FB7185' stroke-width='4' fill='none'/>"
         "<path d='M33.5 29.5 A11 11 0 0 1 14.5 29.5' stroke='#FBBF24' stroke-width='4' fill='none'/>"
         "<path d='M14.5 29.5 A11 11 0 0 1 24 13' stroke='#34D399' stroke-width='4' fill='none'/>"
@@ -68,7 +68,7 @@ def main():
         f"<circle cx='24' cy='24.5' r='5' {W}/>"
         f"<rect x='19' y='12.5' width='10' height='4' rx='2' {F}/>",
         links=("org.gnome.Snapshot.svg",))
-    app("vixzen-decibels.svg", "#4F46E5", "#7C7CFF",
+    app("vixzen-decibels.svg", "#3B82F6", "#60A5FA",
         "".join(f"<rect x='{15 + i * 5}' y='{24 - h}' width='3' height='{2 * h}' rx='1.5' {F}/>"
                 for i, h in enumerate((4, 8, 5, 10, 6))),
         links=("org.gnome.Decibels.svg",))
@@ -89,8 +89,8 @@ def main():
         f"<circle cx='24' cy='18' r='3' {F}/>",
         links=("org.gnome.Maps.svg",))
     # -- mimetypes: white page, color band, glyph --
-    doc("text-x-generic.svg", "#4F46E5",
-        "".join(f"<rect x='16' y='{16 + i * 4}' width='{16 if i < 2 else 10}' height='2' fill='#4F46E5'/>" for i in range(3)))
+    doc("text-x-generic.svg", "#3B82F6",
+        "".join(f"<rect x='16' y='{16 + i * 4}' width='{16 if i < 2 else 10}' height='2' fill='#3B82F6'/>" for i in range(3)))
     doc("image-x-generic.svg", "#0891B2",
         "<path d='M16 28 L22 21 L26 25 L30 20 L34 24 V30 H16 Z' fill='#0891B2'/>")
     doc("video-x-generic.svg", "#6D28D9",

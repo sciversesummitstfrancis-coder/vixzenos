@@ -24,7 +24,7 @@
 @define-color borders #2E3448;
 @define-color headerbar_border_color #2E3448;
 
-/* --- Vixzen signature: focused windows wear an indigo halo.
+/* --- Vixzen signature: focused windows wear a Vixzen Blue halo.
  * No stock GNOME theme does this — it is the Vixzen tell. --- */
 window.csd {
   border-radius: 16px;

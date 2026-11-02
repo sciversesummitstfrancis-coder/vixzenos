@@ -1,5 +1,5 @@
 /* VixzenOS GTK override — NEON SURGE. Layered AFTER vixzen-gtk-dark.css
- * (same selectors, later wins). Swaps indigo accents for neon green.
+ * (same selectors, later wins). Swaps Vixzen Blue accents for neon green.
  * Deployed by scripts/vixzen-gtk-theme.sh --apply --accent neon. */
 
 @define-color accent_bg_color #00E676;

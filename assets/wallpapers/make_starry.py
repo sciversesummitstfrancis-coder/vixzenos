@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Starry-night Vixzen wallpaper — 1920x1080 PNG, Pillow only, no downloads.
-Deep-space navy gradient + layered stars + indigo/teal nebula glows.
+Deep-space navy gradient + layered stars + blue/teal nebula glows.
 Output: assets/wallpapers/vixzen-starry-1920x1080.png
 """
 import os, random
@@ -25,7 +25,7 @@ for y in range(H):
 d = ImageDraw.Draw(img, "RGBA")
 # Nebula glows (soft concentric ellipses)
 for cx, cy, rx, ry, col in [
-        (1350, 320, 420, 260, (79, 70, 229)),
+        (1350, 320, 420, 260, (59, 130, 246)),
         (420, 760, 480, 300, (6, 182, 214)),
         (960, 540, 700, 420, (30, 27, 75))]:
     for i in range(6, 0, -1):

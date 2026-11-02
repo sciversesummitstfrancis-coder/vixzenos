@@ -45,8 +45,8 @@
     for (const m of motes) {
       const tw = 0.5 + 0.5 * Math.sin(t * 0.001 * m.s + m.p);
       ctx.fillStyle = m.green
-        ? `rgba(0,230,118,${0.25 * tw})`
-        : `rgba(124,124,255,${0.25 * tw})`;
+        ? `rgba(59,130,246,${0.25 * tw})`
+        : `rgba(96,165,250,${0.25 * tw})`;
       ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, 7); ctx.fill();
     }
     // streaks
@@ -58,7 +58,7 @@
       const x0 = cx + dx * s.r, y0 = cy + dy * s.r;
       const x1 = cx + dx * (s.r + s.len), y1 = cy + dy * (s.r + s.len);
       const g = ctx.createLinearGradient(x0, y0, x1, y1);
-      const col = s.green ? "0,230,118" : "124,124,255";
+      const col = s.green ? "59,130,246" : "96,165,250";
       g.addColorStop(0, `rgba(${col},0)`);
       g.addColorStop(1, `rgba(${col},${s.al})`);
       ctx.strokeStyle = g; ctx.lineWidth = s.w;

@@ -12,7 +12,7 @@ except Exception:
 
 
 def theme_list(as_json=False):
-    names = list(ACCENTS) if ACCENTS else ["Vixzen Indigo"]
+    names = list(ACCENTS) if ACCENTS else ["Vixzen Blue"]
     if as_json:
         print(json.dumps({"themes": names}))
     else:

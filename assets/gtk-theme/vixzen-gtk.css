@@ -1,9 +1,9 @@
 /* VixzenOS GTK4 rework — LIGHT. Same roles as vixzen-gtk-dark.css,
  * light values. Backup lives in ~/.config/vixzen/gtk-theme.backup. */
 
-@define-color accent_bg_color #4F46E5;
+@define-color accent_bg_color #3B82F6;
 @define-color accent_fg_color #FFFFFF;
-@define-color accent_color #4F46E5;
+@define-color accent_color #3B82F6;
 @define-color destructive_bg_color #DC2626;
 @define-color success_bg_color #059669;
 @define-color warning_bg_color #D97706;
@@ -22,11 +22,11 @@
 @define-color borders #D4D8E3;
 @define-color headerbar_border_color #D4D8E3;
 
-/* --- Vixzen signature: focused windows wear an indigo halo. --- */
+/* --- Vixzen signature: focused windows wear a Vixzen Blue halo. --- */
 window.csd {
   border-radius: 16px;
-  box-shadow: 0 0 0 1px rgba(79,70,229,0.60),
-              0 0 24px rgba(79,70,229,0.25),
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.60),
+              0 0 24px rgba(59,130,246,0.25),
               0 18px 50px rgba(0,0,0,0.35);
 }
 window.csd:backdrop {
@@ -36,15 +36,15 @@ window.csd:backdrop {
 tooltip {
   background-color: #1A1D29;
   color: #FFFFFF;
-  border: 1px solid #4F46E5;
+  border: 1px solid #3B82F6;
   border-radius: 10px;
 }
 
 /* --- Vixzen signature: sidebar selection is a glowing tab. --- */
 .sidebar row:selected {
-  border-left: 3px solid #4F46E5;
-  background-color: rgba(79,70,229,0.14);
-  box-shadow: 0 0 12px rgba(79,70,229,0.25);
+  border-left: 3px solid #3B82F6;
+  background-color: rgba(59,130,246,0.14);
+  box-shadow: 0 0 12px rgba(59,130,246,0.25);
 }
 nautilus-window .sidebar {
   background-color: #E8EAF2;
@@ -56,14 +56,14 @@ nautilus-window .sidebar row {
   padding: 3px 6px;
 }
 nautilus-window .sidebar row:selected {
-  background-color: rgba(79,70,229,0.18);
-  box-shadow: inset 0 0 0 1px rgba(79,70,229,0.45);
+  background-color: rgba(59,130,246,0.18);
+  box-shadow: inset 0 0 0 1px rgba(59,130,246,0.45);
 }
 nautilus-window gridview > child:selected,
 nautilus-window iconview > child:selected {
-  background-color: rgba(79,70,229,0.18);
+  background-color: rgba(59,130,246,0.18);
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(79,70,229,0.30);
+  box-shadow: 0 0 12px rgba(59,130,246,0.30);
 }
 nautilus-window gridview > child,
 nautilus-window iconview > child {
@@ -71,22 +71,22 @@ nautilus-window iconview > child {
 }
 nautilus-window headerbar {
   background-color: #E8EAF2;
-  border-bottom: 2px solid #4F46E5;
+  border-bottom: 2px solid #3B82F6;
 }
 nautilus-window searchentry {
   border-radius: 12px;
   border-color: #D4D8E3;
 }
 nautilus-window searchentry:focus {
-  border-color: #4F46E5;
-  box-shadow: 0 0 10px rgba(79,70,229,0.35);
+  border-color: #3B82F6;
+  box-shadow: 0 0 10px rgba(59,130,246,0.35);
 }
 
 button.suggested-action {
-  background-color: #4F46E5;
+  background-color: #3B82F6;
   color: #FFFFFF;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(79,70,229,0.35);
+  box-shadow: 0 0 12px rgba(59,130,246,0.35);
 }
 button.destructive-action {
   border-radius: 12px;
@@ -102,17 +102,17 @@ headerbar {
   border-bottom-color: #D4D8E3;
 }
 switch:checked {
-  background-color: #4F46E5;
+  background-color: #3B82F6;
 }
 check:checked, radio:checked {
-  background-color: #4F46E5;
+  background-color: #3B82F6;
   color: #FFFFFF;
 }
 progressbar > trough > progress {
-  background-color: #4F46E5;
+  background-color: #3B82F6;
 }
 scale highlight {
-  background-color: #4F46E5;
+  background-color: #3B82F6;
 }
 
 /* --- macOS traffic lights + Vixzen identity: red/yellow/green window

@@ -269,7 +269,7 @@ def results_page_html(query, results, offline=False, version="0.5"):
 <title>Vixzen Search: {q}</title>
 <style>
 body{{font-family:-apple-system,Cantarell,system-ui,sans-serif;margin:0;min-height:100vh;color:#fff;
-background:radial-gradient(900px 500px at 15% 0%,rgba(79,70,229,.5),transparent 60%),
+background:radial-gradient(900px 500px at 15% 0%,rgba(59,130,246,.5),transparent 60%),
 radial-gradient(800px 500px at 90% 15%,rgba(6,182,212,.35),transparent 60%),
 linear-gradient(160deg,#14172b,#0b0e1a);}}
 .wrap{{max-width:720px;margin:0 auto;padding:36px 18px 60px}}
@@ -280,13 +280,13 @@ border:1px solid rgba(255,255,255,.25);border-top-color:rgba(255,255,255,.55);
 box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 12px 40px rgba(0,0,0,.35)}}
 input{{flex:1;padding:11px 18px;border-radius:999px;border:0;outline:0;background:rgba(0,0,0,.25);color:#fff;font-size:15px}}
 button{{padding:11px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.3);border-top-color:rgba(255,255,255,.6);
-background:linear-gradient(180deg,rgba(124,124,255,.9),rgba(79,70,229,.9));color:#fff;font-weight:700}}
+background:linear-gradient(180deg,rgba(96,165,250,.9),rgba(59,130,246,.9));color:#fff;font-weight:700}}
 .n{{opacity:.6;font-size:13px;margin:10px 2px}}.r{{display:block;margin:10px 0;padding:16px 18px;border-radius:18px;
 text-decoration:none;color:#fff;background:rgba(255,255,255,.09);
 -webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);
 border:1px solid rgba(255,255,255,.2);border-top-color:rgba(255,255,255,.45);
 box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}}
-.r:hover{{background:rgba(255,255,255,.15);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 22px rgba(124,124,255,.45)}}
+.r:hover{{background:rgba(255,255,255,.15);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 22px rgba(96,165,250,.45)}}
 .t{{font-weight:700;font-size:16px}}.u{{opacity:.6;font-size:12px;margin:3px 0}}.s{{opacity:.85;font-size:14px}}
 .empty{{padding:40px;text-align:center;opacity:.75}}.fall{{margin-top:18px;opacity:.7;font-size:13px}}
 .fall a,.r{{color:#fff}}.fall a{{color:#a5b4ff}}</style></head><body><div class="wrap">

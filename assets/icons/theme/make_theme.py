@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate the Vixzen icon theme (offline, no downloads).
-Indigo folders + trash + home in Vixzen style; everything else inherits
+Blue folders + trash + home in Vixzen style; everything else inherits
 Adwaita, so the theme is tiny and safe. Output: assets/icons/theme/Vixzen/
 """
 import os
@@ -9,9 +9,9 @@ HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Vixzen")
 PLACES = os.path.join(HERE, "scalable", "places")
 os.makedirs(PLACES, exist_ok=True)
 
-INDIGO_D = "#3730A3"
-INDIGO = "#4F46E5"
-INDIGO_L = "#7C7CFF"
+INDIGO_D = "#1E40AF"
+INDIGO = "#3B82F6"
+INDIGO_L = "#60A5FA"
 DARK = "#23263A"
 
 FOLDER = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -42,7 +42,7 @@ TRASH = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 
 HOME = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 <path d="M8 24 L24 10 L40 24" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="15" y="24" width="18" height="14" rx="2" fill="#4F46E5"/>
+<rect x="15" y="24" width="18" height="14" rx="2" fill="#3B82F6"/>
 <rect x="21" y="30" width="6" height="8" fill="#FFD93D"/>
 </svg>
 """
@@ -123,7 +123,7 @@ APP_ART = {
                  "<path d='M25 30 H34' stroke='white' stroke-width='3.2' stroke-linecap='round'/>"),
     "settings": ("#8B8FA3", "#4A4E69",
                  teeth + "<circle cx='24' cy='24' r='7.5' fill='white'/>"
-                 "<circle cx='24' cy='24' r='3' fill='#4F46E5'/>"),
+                 "<circle cx='24' cy='24' r='3' fill='#3B82F6'/>"),
     "software": ("#FF9A3D", "#E8590C",
                  "<rect x='13' y='18' width='22' height='17' rx='3' fill='none' stroke='white' stroke-width='3.4'/>"
                  "<path d='M18 18 v-3 a6 6 0 0 1 12 0 v3' fill='none' stroke='white' stroke-width='3'/>"
@@ -133,11 +133,11 @@ APP_ART = {
     "calendar": ("#FFFFFF", "#DCE3F0",
                  "<rect x='11' y='13' width='26' height='7' rx='2' fill='#F43F5E'/>"
                  "<rect x='11' y='20' width='26' height='18' rx='2' fill='none' stroke='#334155' stroke-width='2.6'/>"
-                 "<path d='M18 9 V15 M30 9 V15' stroke='#4F46E5' stroke-width='3.4' stroke-linecap='round'/>"
-                 "<circle cx='24' cy='29' r='3.4' fill='#4F46E5'/>"),
+                 "<path d='M18 9 V15 M30 9 V15' stroke='#3B82F6' stroke-width='3.4' stroke-linecap='round'/>"
+                 "<circle cx='24' cy='29' r='3.4' fill='#3B82F6'/>"),
     "editor": ("#FFFFFF", "#C9D6F2",
                "<path d='M17 14 H29 M17 20 H29 M17 26 H25' stroke='#1E293B' stroke-width='2.6'/>"
-               "<path d='M28 33 L37 24 L40 27 L31 36 L27 37 Z' fill='#4F46E5'/>"),
+               "<path d='M28 33 L37 24 L40 27 L31 36 L27 37 Z' fill='#3B82F6'/>"),
 }
 for key, (c1, c2, inner) in APP_ART.items():
     with open(os.path.join(APPS, f"vixzen-{key}.svg"), "w") as f:

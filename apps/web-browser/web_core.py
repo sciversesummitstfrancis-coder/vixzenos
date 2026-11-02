@@ -101,7 +101,7 @@ def fetch_suggestions(text, engine):
 def ensure_config():
     os.makedirs(CONFIG_DIR, exist_ok=True)
     for path, default in ((BOOKMARKS_FILE, [{"title": "DuckDuckGo", "url": "https://duckduckgo.com/"},
-                                            {"title": "Fedora Docs", "url": "https://docs.fedoraproject.org/"},
+                                            {"title": "Vixzen Docs", "url": "https://github.com/sciversesummitstfrancis-coder/vixzenos/tree/main/docs"},
                                             {"title": "GNOME", "url": "https://gnome.org/"},
                                             {"title": "Wikipedia", "url": "https://wikipedia.org/"}]),
                           (HISTORY_FILE, [])):
@@ -183,11 +183,11 @@ def _insane_css():
     return """<style>
 @keyframes drift { 0%{transform:translate(0,0)} 50%{transform:translate(30px,-24px)} 100%{transform:translate(0,0)} }
 @keyframes rise { from{opacity:0; transform:translateY(26px)} to{opacity:1; transform:none} }
-@keyframes glow { 0%,100%{text-shadow:0 0 12px rgba(124,124,255,.4)} 50%{text-shadow:0 0 34px rgba(124,124,255,.9)} }
+@keyframes glow { 0%,100%{text-shadow:0 0 12px rgba(96,165,250,.4)} 50%{text-shadow:0 0 34px rgba(96,165,250,.9)} }
 .orb{position:fixed;border-radius:999px;filter:blur(70px);opacity:.5;pointer-events:none;animation:drift 9s ease-in-out infinite}
-.orb.o1{width:340px;height:340px;left:-80px;top:-60px;background:#4F46E5}
+.orb.o1{width:340px;height:340px;left:-80px;top:-60px;background:#3B82F6}
 .orb.o2{width:300px;height:300px;right:-60px;top:20%;background:#06B6D4;animation-delay:-3s}
-.orb.o3{width:260px;height:260px;left:30%;bottom:-100px;background:#7C7CFF;animation-delay:-6s}
+.orb.o3{width:260px;height:260px;left:30%;bottom:-100px;background:#60A5FA;animation-delay:-6s}
 h1,.logo{animation:glow 3s ease-in-out infinite}
 .grid .dial,.grid .s{animation:rise .5s ease-out backwards}
 .grid .dial:nth-child(2),.grid .s:nth-child(2){animation-delay:.06s}
@@ -219,7 +219,7 @@ def start_page_html(bookmarks=None, history=None, skin="glass", fx="balanced"):
         dials = dials + freq
     if not dials:
         dials = [{"title": "Wikipedia", "url": "https://wikipedia.org/"},
-                 {"title": "Fedora Docs", "url": "https://docs.fedoraproject.org/"},
+                 {"title": "Vixzen Docs", "url": "https://github.com/sciversesummitstfrancis-coder/vixzenos/tree/main/docs"},
                  {"title": "GNOME", "url": "https://gnome.org/"}]
     tiles = "\n".join(_dial_tile(d.get("title", ""), d.get("url", "")) for d in dials[:SPEED_DIAL_MAX])
     return f"""<!doctype html><html><head><meta charset="utf-8">
@@ -227,7 +227,7 @@ def start_page_html(bookmarks=None, history=None, skin="glass", fx="balanced"):
 <title>New Tab — Vixzen Web</title>
 <style>
 body{{font-family:-apple-system,Cantarell,system-ui,sans-serif;margin:0;min-height:100vh;color:#fff;
-background:radial-gradient(900px 500px at 50% 0%,rgba(79,70,229,.45),transparent 60%),
+background:radial-gradient(900px 500px at 50% 0%,rgba(59,130,246,.45),transparent 60%),
 linear-gradient(180deg,#171a30,#0b0e1a);}}
 .wrap{{max-width:640px;margin:0 auto;padding:12vh 20px 40px;text-align:center}}
 .logo{{font-size:52px;font-weight:800;letter-spacing:-2px;margin:0}}
@@ -236,18 +236,18 @@ form{{display:flex;gap:8px;padding:8px;border-radius:999px;
 background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);
 border:1px solid rgba(255,255,255,.28);border-top-color:rgba(255,255,255,.6);
 box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 16px 48px rgba(0,0,0,.4)}}
-form:focus-within{{border-color:rgba(165,180,255,.9);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 28px rgba(124,124,255,.55)}}
+form:focus-within{{border-color:rgba(165,180,255,.9);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 28px rgba(96,165,250,.55)}}
 input{{flex:1;padding:14px 22px;border-radius:999px;border:0;outline:0;background:rgba(0,0,0,.28);color:#fff;font-size:16px}}
 button{{padding:14px 26px;border-radius:999px;border:1px solid rgba(255,255,255,.3);border-top-color:rgba(255,255,255,.6);
-background:linear-gradient(180deg,rgba(124,124,255,.95),rgba(79,70,229,.95));color:#fff;font-weight:700;font-size:15px}}
+background:linear-gradient(180deg,rgba(96,165,250,.95),rgba(59,130,246,.95));color:#fff;font-weight:700;font-size:15px}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-top:34px}}
 .dial{{padding:18px 10px;border-radius:22px;text-decoration:none;color:#fff;
 background:rgba(255,255,255,.10);-webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6);
 border:1px solid rgba(255,255,255,.22);border-top-color:rgba(255,255,255,.5);
 box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 10px 30px rgba(0,0,0,.3)}}
-.dial:hover{{background:rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 24px rgba(124,124,255,.5)}}
+.dial:hover{{background:rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 24px rgba(96,165,250,.5)}}
 .thumb{{width:46px;height:46px;border-radius:999px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;
-font-size:20px;font-weight:800;color:#fff;background:linear-gradient(135deg,#7C7CFF,#22D3EE);
+font-size:20px;font-weight:800;color:#fff;background:linear-gradient(135deg,#60A5FA,#22D3EE);
 box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 14px rgba(0,0,0,.3)}}
 .cap{{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 .host{{opacity:.6;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
@@ -273,7 +273,7 @@ def _chrome_home_html(bookmarks=None, history=None, fx="balanced"):
                 break
     if not dials:
         dials = [{"title": "Wikipedia", "url": "https://wikipedia.org/"},
-                 {"title": "Fedora Docs", "url": "https://docs.fedoraproject.org/"}]
+                 {"title": "Vixzen Docs", "url": "https://github.com/sciversesummitstfrancis-coder/vixzenos/tree/main/docs"}]
     import html as _h
     import urllib.parse as _u
     tiles = []

@@ -140,7 +140,7 @@ PERF_MODES = ("saver", "balanced", "enhanced", "insane")
 WALLPAPERS = {
     "Starry Night": ("#0A0E2A", "#02040E"),
     "Vixzen Signature": ("#3B82F6", "#0B1220"),
-    "Indigo Dusk": ("#4F46E5", "#12141C"),
+    "Indigo Dusk": ("#1E40AF", "#0A0F1E"),
     "Slate Calm": ("#334155", "#0F172A"),
     "Deep Night": ("#1E1B4B", "#020617"),
     "Neon Burst": ("#00E676", "#020806"),
@@ -170,7 +170,7 @@ def css_for(theme_name: str, perf_mode: str = "balanced",
     button:hover { box-shadow: 0 0 18px rgba(59,130,246,0.6); }
     .vix-card:hover { box-shadow: 0 0 28px rgba(59,130,246,0.5); }
     .vix-accent { box-shadow: 0 0 22px rgba(59,130,246,0.55); }
-    .vix-hero { box-shadow: 0 0 40px rgba(79,70,229,0.5); }
+    .vix-hero { box-shadow: 0 0 40px rgba(59,130,246,0.5); }
     """
     w1, w2 = WALLPAPERS.get(wallpaper, list(WALLPAPERS.values())[0])
     return f"""
