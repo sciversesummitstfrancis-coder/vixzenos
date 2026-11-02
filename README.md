@@ -1,18 +1,19 @@
 # VixzenOS — Lightweight, Graphical Linux Desktop
 
 A Windows-familiar desktop (bottom dock, Start menu, Vixzen Files) with an
-original neon visual identity, built as a live ISO on a Fedora base. Optimized
-for low-spec hardware (primary target: Dell Latitude 3570, i5-6200U, 8 GB RAM,
-Intel HD 520).
+original neon visual identity, shipped as a bootable live ISO by an independent
+distribution team. Optimized for low-spec hardware (primary target: Dell
+Latitude 3570, i5-6200U, 8 GB RAM, Intel HD 520).
 
 > **Status: 0.3 Preview.** Working bootable live ISO; Personal + Edu editions;
 > `vix` command center; Vixzen Files / Settings / Power / Browser apps.
 
 ## What this is
 
-- **VixzenOS** — an independent Linux distribution built on Fedora packages.
-  All artwork, branding, apps and workflows in this repo are original work.
-  Fedora, GNOME, and other upstream projects remain the copyright of their
+- **VixzenOS** — an independent Linux distribution with its own identity,
+  desktop, apps, release pipeline and kernel release tag. All artwork,
+  branding, apps and workflows in this repo are original work. GNOME, the
+  Linux kernel and other upstream projects remain the copyright of their
   respective owners; this project is not affiliated with or endorsed by them.
 
 ## Get VixzenOS

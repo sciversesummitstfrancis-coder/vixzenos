@@ -21,7 +21,7 @@ Mark each `[ ]` as you go. Target machine: i5-6200U, 8 GB RAM, Intel HD 520.
 
 - [ ] Burst wallpaper visible, dock (dash-to-dock) centered at bottom
 - [ ] No top bar (hidetopbar); Activities reachable via Super
-- [ ] Vixzen icons (indigo folders), globe Firefox icon
+- [ ] Vixzen icons (blue folders), globe Firefox icon
 - [ ] Vixzen Files opens `~`; Settings opens; Power menu opens
 - [ ] `vix doctor` runs in terminal (Super+T, type `vix doctor`)
 

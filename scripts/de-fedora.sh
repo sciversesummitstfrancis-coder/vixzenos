@@ -13,8 +13,9 @@
 #   - Fedora wallpapers (f44 / fedora-workstation)
 #   - /etc/fedora-release, /usr/lib/fedora-release
 #   - Fedora GDM theme
-# Keeps: the "fedora" ID in /etc/os-release (dnf + third-party repos key off
-# it) and /etc/fstab. Both are invisible to users.
+# Also rewrites /etc/os-release to the VixzenOS identity when
+# /etc/vixzen-release is present, and pins DNF's releasever so repository
+# URLs keep resolving. It never touches /etc/fstab.
 set -u
 ROOT="${VIXZEN_ROOT:-}"
 if [ -z "$ROOT" ]; then
@@ -75,8 +76,22 @@ rm -rf "$P/usr/share/doc/fedora-third-party" \
 log "removed Fedora wallpapers + stock background docs"
 
 # 4. Release identity files.
-rm -f "$P/etc/fedora-release" "$P/usr/lib/fedora-release" 2>/dev/null || true
+rm -f "$P/etc/fedora-release" "$P/usr/lib/fedora-release" \
+      "$P/etc/system-release-cpe" 2>/dev/null || true
 log "removed fedora-release identity files"
+
+# 4b. Rewrite os-release when the Vixzen identity file exists. The release
+#     number DNF needs is pinned separately so repo URLs keep resolving.
+if [ -f "$P/etc/vixzen-release" ]; then
+  cp "$P/etc/vixzen-release" "$P/usr/lib/os-release"
+  rm -f "$P/etc/os-release"
+  cp "$P/etc/vixzen-release" "$P/etc/os-release"
+  mkdir -p "$P/etc/dnf/vars"
+  [ -f "$P/etc/dnf/vars/releasever" ] || echo "44" > "$P/etc/dnf/vars/releasever"
+  log "os-release rewritten to VixzenOS (dnf releasever pinned to 44)"
+else
+  log "no /etc/vixzen-release — leaving os-release untouched"
+fi
 
 # 5. GDM theme.
 rm -rf "$P/usr/share/gdm/theme/fedora" 2>/dev/null || true
@@ -93,4 +108,4 @@ for ic in "$P/usr/share/icons/hicolor" "$P/usr/share/icons/Adwaita"; do
   [ -d "$ic" ] && gtk-update-icon-cache -f "$ic" 2>/dev/null || true
 done
 log "caches rebuilt"
-log "done — the remaining 'fedora' ID in os-release is intentional (dnf/repo compatibility)"
+log "done — os-release now identifies as VixzenOS; dnf releasever is pinned separately"

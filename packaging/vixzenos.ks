@@ -339,23 +339,36 @@ for d in /etc/skel/.config/gtk-4.0 /home/liveuser/.config/gtk-4.0; do
   cp /tmp/vixzen-stage/gtk/vixzen-gtk-dark.css "$d/gtk-dark.css" 2>/dev/null || true
 done
 chown -R liveuser:liveuser /home/liveuser/.config/gtk-4.0 2>/dev/null || true
-# --- OS identity: NOTHING of Fedora visible. ID stays 'fedora' on purpose
-# (third-party repos and tools key off it); every human-visible field says
-# VixzenOS. Standard remix practice. ---
+# --- OS identity: VixzenOS owns every identity field.
+# DNF still needs the upstream release number to resolve repository URLs, so
+# that number lives in /etc/dnf/vars/releasever. It is a build detail, not an
+# identity field, and it never appears in /etc/os-release. ---
 echo "vixzen" > /etc/hostname
+mkdir -p /etc/dnf/vars
+echo "44" > /etc/dnf/vars/releasever
 cat > /etc/vixzen-release <<'EOF'
 NAME="VixzenOS"
 VERSION="0.3 (Preview)"
 ID=vixzenos
-PRETTY_NAME="VixzenOS 0.3 (Preview, Fedora-based)"
-ANSI_COLOR="0;38;2;79;70;229"
+PRETTY_NAME="VixzenOS 0.3 (Preview)"
+VERSION_ID="0.3"
+VERSION_CODENAME="vixzen"
+VARIANT="VixzenOS"
+VARIANT_ID="vixzenos"
+ANSI_COLOR="0;38;2;59;130;246"
 LOGO=vixzen-logo
+HOME_URL="https://github.com/sciversesummitstfrancis-coder/vixzenos"
+DOCUMENTATION_URL="https://github.com/sciversesummitstfrancis-coder/vixzenos/tree/main/docs"
+SUPPORT_URL="https://github.com/sciversesummitstfrancis-coder/vixzenos/issues"
+BUG_REPORT_URL="https://github.com/sciversesummitstfrancis-coder/vixzenos/issues"
 EOF
-sed -i 's/^NAME.*/NAME="VixzenOS"/' /etc/os-release
-sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="VixzenOS 0.3 (Preview)"/' /etc/os-release
-sed -i 's/^VARIANT=.*/VARIANT="VixzenOS"/' /etc/os-release
-sed -i 's/^VERSION=.*/VERSION="0.3 (Preview)"/' /etc/os-release
-sed -i 's/^ANSI_COLOR=.*/ANSI_COLOR="0;38;2;79;70;229"/' /etc/os-release
+# /etc/os-release is normally a symlink to /usr/lib/os-release. Overwrite the
+# real file and replace the symlink with a copy so neither location can carry
+# Fedora's ID_LIKE, CPE_NAME or VARIANT_ID.
+cp /etc/vixzen-release /usr/lib/os-release
+rm -f /etc/os-release
+cp /etc/vixzen-release /etc/os-release
+rm -f /etc/fedora-release /usr/lib/fedora-release /etc/system-release-cpe
 echo "VixzenOS release 0.3 (Preview)" > /etc/system-release
 # --- Silent boot: no kernel text scroll, no Fedora Plymouth ---
 if [ -d /usr/share/plymouth/themes/spinner ]; then
@@ -419,20 +432,20 @@ if command -v glib-compile-resources >/dev/null && command -v gresource >/dev/nu
 /* --- Vixzen login identity (selectors verified against GNOME 50 theme) --- */
 #lockDialogGroup { background-image: url("vixzen-login.png"); background-size: cover; background-color: #02040E; }
 .login-dialog { background-color: rgba(10,12,20,0.35); border-radius: 24px; }
-.login-dialog .user-icon { border: 3px solid #7C7CFF; box-shadow: 0 0 22px rgba(124,124,255,0.6); }
+.login-dialog .user-icon { border: 3px solid #60A5FA; box-shadow: 0 0 22px rgba(96,165,250,0.6); }
 .login-dialog-prompt-entry { border-radius: 14px; border: 1px solid #2E3448; background-color: rgba(27,30,42,0.92); color: #E8EAF2; padding: 10px 16px; font-size: 15px; }
-.login-dialog-prompt-entry:focus { border: 1px solid #7C7CFF; box-shadow: 0 0 18px rgba(124,124,255,0.55); }
-.login-dialog-button { border-radius: 12px; padding: 8px 26px; font-weight: bold; background-color: #4F46E5; color: #FFFFFF; }
+.login-dialog-prompt-entry:focus { border: 1px solid #60A5FA; box-shadow: 0 0 18px rgba(96,165,250,0.55); }
+.login-dialog-button { border-radius: 12px; padding: 8px 26px; font-weight: bold; background-color: #3B82F6; color: #FFFFFF; }
 .login-dialog-message-warning { color: #FB923C; }
 CSSEOF
   cat >> "$T/theme/org/gnome/shell/theme/gnome-shell-light.css" <<'CSSEOF'
 /* --- Vixzen login identity (selectors verified against GNOME 50 theme) --- */
 #lockDialogGroup { background-image: url("vixzen-login.png"); background-size: cover; background-color: #02040E; }
 .login-dialog { background-color: rgba(10,12,20,0.35); border-radius: 24px; }
-.login-dialog .user-icon { border: 3px solid #7C7CFF; box-shadow: 0 0 22px rgba(124,124,255,0.6); }
+.login-dialog .user-icon { border: 3px solid #60A5FA; box-shadow: 0 0 22px rgba(96,165,250,0.6); }
 .login-dialog-prompt-entry { border-radius: 14px; border: 1px solid #2E3448; background-color: rgba(27,30,42,0.92); color: #E8EAF2; padding: 10px 16px; font-size: 15px; }
-.login-dialog-prompt-entry:focus { border: 1px solid #7C7CFF; box-shadow: 0 0 18px rgba(124,124,255,0.55); }
-.login-dialog-button { border-radius: 12px; padding: 8px 26px; font-weight: bold; background-color: #4F46E5; color: #FFFFFF; }
+.login-dialog-prompt-entry:focus { border: 1px solid #60A5FA; box-shadow: 0 0 18px rgba(96,165,250,0.55); }
+.login-dialog-button { border-radius: 12px; padding: 8px 26px; font-weight: bold; background-color: #3B82F6; color: #FFFFFF; }
 .login-dialog-message-warning { color: #FB923C; }
 CSSEOF
   cat > "$T/vixzen-theme.gresource.xml" <<'XMLEOF'

@@ -2,8 +2,8 @@
 
 You are working in **VixzenOS**, an independent Linux distribution: a
 Windows-familiar desktop (bottom dock, Start menu, Vixzen Files) with an original
-neon identity, shipped as a bootable live ISO on a Fedora base. Current status:
-**0.3 Preview**.
+neon identity, shipped as a bootable live ISO with its own release identity and
+kernel release tag. Current status: **0.3 Preview**.
 
 Read this before touching anything. It encodes the traps that cost real time here.
 
@@ -30,7 +30,7 @@ All gitignored. Never commit them, never read them as source of truth.
 |---|---|
 | Apps | Python 3.14 + GTK4 / Libadwaita (PyGObject), pure stdlib otherwise |
 | Shell | GNOME Shell extension (JS) — `desktop/shell/` |
-| ISO / OS | Fedora base + livemedia-creator + lorax kickstart |
+| ISO / OS | VixzenOS kickstart + livemedia-creator/lorax on a Fedora-compatible package base |
 | Tooling | bash scripts |
 | Website | vanilla HTML/CSS/JS (no framework, no build step) |
 

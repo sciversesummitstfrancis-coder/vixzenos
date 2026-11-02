@@ -130,6 +130,36 @@ rm -f "$PUB/vixzen-stage.tar.gz"
 tar -czf "$PUB/vixzen-stage.tar.gz" -C /tmp vixzen-stage 2>>"$LOG" \
   && log "[STAGE] tarball $PUB/vixzen-stage.tar.gz ($(du -h "$PUB/vixzen-stage.tar.gz" | cut -f1))" \
   || { log "[FAIL] stage tarball (see $LOG)"; fail=1; }
+
+# --- Custom VixzenOS kernel (optional) ------------------------------------
+# The live install takes `kernel` from the upstream repo unless a higher
+# version VixzenOS kernel is reachable. We serve any built *.vixzen kernel RPM
+# over the same user-net HTTP path the stage uses, and hand livemedia-creator
+# a kickstart that adds it as a low-cost repo. Without a built kernel the ISO
+# still boots — it just reports the upstream release tag.
+KS_EFFECTIVE="$KS"
+KERNEL_REPO="$PUB/kernel-repo"
+KERNEL_RPMS=$(ls "$HERE"/packaging/rpm/out/kernel-*.vixzen*.rpm \
+                 "$HOME"/rpmbuild/RPMS/x86_64/kernel-*.vixzen*.rpm 2>/dev/null || true)
+if [ -n "$KERNEL_RPMS" ]; then
+  rm -rf "$KERNEL_REPO"; mkdir -p "$KERNEL_REPO"
+  # shellcheck disable=SC2086
+  cp $KERNEL_RPMS "$KERNEL_REPO"/
+  if command -v createrepo_c >/dev/null; then
+    createrepo_c --quiet "$KERNEL_REPO" 2>>"$LOG" || log "[WARN] createrepo_c failed"
+  elif command -v createrepo >/dev/null; then
+    createrepo --quiet "$KERNEL_REPO" 2>>"$LOG" || log "[WARN] createrepo failed"
+  else
+    log "[WARN] no createrepo tool; kernel repo metadata missing"
+  fi
+  KS_EFFECTIVE="$HERE/build/vixzenos-kernel.ks"
+  { echo "repo --name=vixzenos-kernel --baseurl=http://10.0.2.2:8009/ --cost=1"
+    cat "$KS"; } > "$KS_EFFECTIVE"
+  log "[KERNEL] serving $(ls -1 "$KERNEL_REPO"/*.rpm | wc -l) VixzenOS kernel RPM(s) on :8009"
+else
+  log "[KERNEL] no *.vixzen kernel RPM — ISO will ship the upstream kernel."
+  log "[KERNEL] Build it first: bash ~/rpmbuild/build-vixzen-kernel.sh"
+fi
 # Sudo runs create root-owned files; hand the stage back so the next
 # user-owned run doesn't trip over permissions.
 [ -n "${SUDO_USER:-}" ] && chown -R "$SUDO_USER" "$STAGE" 2>/dev/null || true
@@ -183,20 +213,29 @@ log "[BUILD] serving $PUB/vixzen-stage.tar.gz on 10.0.2.2:8008 for VM %post fetc
 # Guest reaches host at 10.0.2.2. Kill server on exit.
 python3 -m http.server 8008 --directory "$PUB" >/dev/null 2>&1 &
 HTTP_PID=$!
-trap 'kill $HTTP_PID 2>/dev/null || true' EXIT
+KERNEL_HTTP_PID=""
+if [ -f "$KERNEL_REPO/repodata/repomd.xml" ]; then
+  python3 -m http.server 8009 --directory "$KERNEL_REPO" >/dev/null 2>&1 &
+  KERNEL_HTTP_PID=$!
+fi
+trap 'kill $HTTP_PID $KERNEL_HTTP_PID 2>/dev/null || true' EXIT
 sleep 1
 curl -s -o /dev/null http://127.0.0.1:8008/vixzen-stage.tar.gz \
   && log "[OK] stage HTTP up" || log "[WARN] stage HTTP not reachable (branding may be missing, ISO still bootable)"
-log "[BUILD] livemedia-creator --make-iso --iso $BOOT_ISO --ks $KS --resultdir $RESULTDIR …"
+if [ -n "$KERNEL_HTTP_PID" ]; then
+  curl -s -o /dev/null http://127.0.0.1:8009/repodata/repomd.xml \
+    && log "[OK] kernel repo HTTP up" || log "[WARN] kernel repo HTTP not reachable"
+fi
+log "[BUILD] livemedia-creator --make-iso --iso $BOOT_ISO --ks $KS_EFFECTIVE --resultdir $RESULTDIR …"
 # Vendored lorax templates: identical to system 99-generic except GRUB
 # default="0" (boot straight in; the media-check entry stays available).
-# Branding flags turn "Linux 44" into "VixzenOS" in GRUB + ISO label
-# (project and product are mutually exclusive; project drives the name).
-livemedia-creator --make-iso --iso "$BOOT_ISO" --ks "$KS" --resultdir "$RESULTDIR" \
+# Branding flags label the media VixzenOS (project and product are mutually
+# exclusive; project drives the name).
+livemedia-creator --make-iso --iso "$BOOT_ISO" --ks "$KS_EFFECTIVE" --resultdir "$RESULTDIR" \
   --lorax-templates "$HERE/packaging/lorax-templates-99-generic" \
-  --project VixzenOS --volid VixzenOS_44_x86_64 2>&1 | tee -a "$LOG"
+  --project VixzenOS --volid VixzenOS_0_3_x86_64 2>&1 | tee -a "$LOG"
 LMC_RC=${PIPESTATUS[0]:-0}
-kill $HTTP_PID 2>/dev/null || true
+kill $HTTP_PID $KERNEL_HTTP_PID 2>/dev/null || true
 trap - EXIT
 [ "$LMC_RC" -ne 0 ] && log "[WARN] livemedia-creator exited $LMC_RC"
 # lorax 44 leaves the image at images/boot.iso inside the result tree

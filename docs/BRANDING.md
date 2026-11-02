@@ -1,10 +1,10 @@
 # VixzenOS Branding — where your name shows, and the BIOS question
 
-## What we branded (all inside the ISO — your Fedora host is untouched)
+## What we branded (all inside the ISO — your existing install is untouched)
 | Place | How | File |
 |---|---|---|
-| Desktop + apps accent | 3 brand accents (Indigo/Cyan/Ember), pickable in Preview Settings + Vixzen Settings | `preview/src/design.py` (`ACCENTS`) |
-| Login screen / About | `PRETTY_NAME="VixzenOS 0.3..."`, hostname `vixzen` | kickstart `%post` → `/etc/os-release`, `/etc/hostname` |
+| Desktop + apps accent | Brand accents (Blue default, plus Cyan/Coral/Neon), pickable in Preview Settings + Vixzen Settings | `preview/src/design.py` (`ACCENTS`) |
+| Login screen / About | `PRETTY_NAME="VixzenOS 0.3..."`, `ID=vixzenos` (no upstream `ID_LIKE`/`CPE_NAME`), hostname `vixzen` | kickstart `%post` → `/etc/os-release`, `/etc/vixzen-release`, `/etc/hostname` |
 | Terminal greeting | Vixzen ASCII + version | kickstart `%post` → `/etc/motd` |
 | Boot menu (GRUB) | Entries say **VixzenOS**, logo wallpaper behind the menu | `/boot/grub2/vixzen-background.png` + `GRUB_DISTRIBUTOR="VixzenOS"` |
 | Boot artwork source | 13 KB total, generated offline, committed | `assets/boot/background.png`, `logo.png`, `make_boot_art.py` |

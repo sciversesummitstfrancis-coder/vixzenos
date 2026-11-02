@@ -1,9 +1,14 @@
+# VixzenOS identity: never emit an upstream dist tag in a package name.
+%define dist .vixzen
+%define dist_vendor VixzenOS
+%define dist_name VixzenOS
+
 Name:           vixzenos-cli
 Version:        0.3
 Release:        1%{?dist}
 Summary:        VixzenOS Command Center — the vix command line interface
 License:        GPL-3.0-or-later
-URL:            https://github.com/vixzen/vixzenos
+URL:            https://github.com/sciversesummitstfrancis-coder/vixzenos
 BuildArch:      noarch
 
 Requires:       python3

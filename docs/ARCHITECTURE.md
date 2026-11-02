@@ -17,7 +17,7 @@
 | Preview prototype | **Python + GTK4 + Libadwaita** (`preview/src/`) | Already installed, Wayland-native, ~30–50 MB RAM (vs ~300 MB+ Electron), CSS theming + `Adw` animations, same toolkit reusable for real apps. No new heavy deps. |
 | Real taskbar/shell | **GNOME Shell extension** (`desktop/shell/`, Milestone 3) | Reuses Mutter/GNOME compositing (GPU-accelerated, tested on HD 520) instead of writing a compositor from scratch. Falls back gracefully. |
 | Real file manager / settings | **GTK4 standalone apps** (`apps/`) | Share design tokens with preview; can run inside GNOME today, inside Vixzen session later. |
-| Base OS / ISO | **Fedora Workstation + livemedia-creator kickstart** (`packaging/vixzenos.ks`) | Official Fedora path, best driver coverage, `lorax`/`livemedia-creator` already on disk. Atomic/image-based rejected for now: heavier rebuilds, harder for a beginner to debug. |
+| Base OS / ISO | **VixzenOS kickstart** (`packaging/vixzenos.ks`) + `livemedia-creator` on a Fedora-compatible package base | Best driver coverage, `lorax`/`livemedia-creator` already on disk, and the VixzenOS identity (os-release, kernel release tag) lives in our own repo. Atomic/image-based rejected for now: heavier rebuilds, harder for a beginner to debug. |
 | What we avoid | Electron, Qt/QML full DE, custom Wayland compositor | Too much RAM / disk / maintenance for 8 GB + HD 520 and a solo beginner. |
 
 Tkinter (MyOS) taught us the window-manager logic cheaply, but it looks dated
