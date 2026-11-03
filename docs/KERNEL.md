@@ -104,7 +104,7 @@ The kickstarts write the identity at image build time:
 - `/etc/system-release` — `VixzenOS release 0.3 (Preview)`
 - `/etc/dnf/vars/releasever` — pinned repository release number
 
-`scripts/de-fedora.sh` performs the same rewrite on an existing tree when
+`scripts/vixzen-debrand.sh` performs the same rewrite on an existing tree when
 `/etc/vixzen-release` is present.
 
 ## Honest boundary

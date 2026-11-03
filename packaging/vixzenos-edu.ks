@@ -405,11 +405,11 @@ cp /tmp/vixzen-stage/edu/49-vixzen-edu-store.rules /usr/share/vixzen-edu/ 2>/dev
 cp /tmp/vixzen-stage/edu/49-vixzen-edu-network.rules /usr/share/polkit-1/rules.d/ 2>/dev/null || true
 chmod 644 /usr/share/vixzen-edu/* /usr/share/polkit-1/rules.d/49-vixzen-edu-*.rules 2>/dev/null || true
 echo "VIXZEN EDU payload installed" || true
-# --- De-Fedora scrub: remove every visible Fedora brand from the image
+# --- Debrand scrub: remove every visible upstream brand from the image
 # (background-logo extension, logo sets, GDM theme, wallpapers, release
-# files). Keeps the "fedora" ID in os-release for repo/dnf compatibility. ---
-if [ -f /tmp/vixzen-stage/de-fedora.sh ]; then
-  bash /tmp/vixzen-stage/de-fedora.sh 2>&1 | sed 's/^/  /' || true
+# files). /etc/os-release was already rewritten above to VixzenOS. ---
+if [ -f /tmp/vixzen-stage/vixzen-debrand.sh ]; then
+  bash /tmp/vixzen-stage/vixzen-debrand.sh 2>&1 | sed 's/^/  /' || true
 fi
 if grep -q GRUB_CMDLINE_LINUX /etc/default/grub; then
   sed -i 's/^GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="rhgb quiet loglevel=3 systemd.show_status=false"/' /etc/default/grub

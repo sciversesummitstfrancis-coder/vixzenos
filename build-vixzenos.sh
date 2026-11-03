@@ -108,7 +108,7 @@ mkdir -p "$STAGE/core"
 cp "$HERE"/shared/vixzen_core/*.py "$STAGE/core/" 2>/dev/null || fail=1
 mkdir -p "$STAGE/update"
 cp "$HERE"/scripts/vixzen-update.sh "$STAGE/update/" 2>/dev/null || fail=1
-cp "$HERE"/scripts/de-fedora.sh "$STAGE/" 2>/dev/null || fail=1
+cp "$HERE"/scripts/vixzen-debrand.sh "$STAGE/" 2>/dev/null || fail=1
 mkdir -p "$STAGE/cursors"
 cp -a "$HERE"/assets/cursors/WhiteSur "$STAGE/cursors/" 2>/dev/null || fail=1
 mkdir -p "$STAGE/looks"

@@ -4,7 +4,7 @@
 - CPU: Intel i5-6200U (2C/4T, up to 2.8 GHz) — verified via `lscpu`
 - RAM: 7.4 GiB total, ~2.7 GiB available (GNOME idle) — `free -h`
 - Disk: 379 GiB free on `/` — room for builds
-- OS: Fedora Linux 44 Workstation, kernel 7.1.10-200.fc44, GNOME Shell 50.5
+- Host OS: RPM-based Linux workstation, kernel 7.1.10, GNOME Shell 50.5
 - Session: Wayland (`XDG_SESSION_TYPE=wayland`), GPU: Intel HD Graphics 520
 - Toolchain present: `python3.14`, `gcc`, `git`, `qemu-kvm`, `livemedia-creator`,
   `lorax`, `livecd-creator`, `grub2-mkrescue`, GTK 4.22.5 + libadwaita 1.9.4 + PyGObject
@@ -17,7 +17,7 @@
 | Preview prototype | **Python + GTK4 + Libadwaita** (`preview/src/`) | Already installed, Wayland-native, ~30–50 MB RAM (vs ~300 MB+ Electron), CSS theming + `Adw` animations, same toolkit reusable for real apps. No new heavy deps. |
 | Real taskbar/shell | **GNOME Shell extension** (`desktop/shell/`, Milestone 3) | Reuses Mutter/GNOME compositing (GPU-accelerated, tested on HD 520) instead of writing a compositor from scratch. Falls back gracefully. |
 | Real file manager / settings | **GTK4 standalone apps** (`apps/`) | Share design tokens with preview; can run inside GNOME today, inside Vixzen session later. |
-| Base OS / ISO | **VixzenOS kickstart** (`packaging/vixzenos.ks`) + `livemedia-creator` on a Fedora-compatible package base | Best driver coverage, `lorax`/`livemedia-creator` already on disk, and the VixzenOS identity (os-release, kernel release tag) lives in our own repo. Atomic/image-based rejected for now: heavier rebuilds, harder for a beginner to debug. |
+| Base OS / ISO | **VixzenOS kickstart** (`packaging/vixzenos.ks`) + `livemedia-creator` on an RPM-based package base (exact upstream boundary: `docs/KERNEL.md`) | Best driver coverage, `lorax`/`livemedia-creator` already on disk, and the VixzenOS identity (os-release, kernel release tag) lives in our own repo. Atomic/image-based rejected for now: heavier rebuilds, harder for a beginner to debug. |
 | What we avoid | Electron, Qt/QML full DE, custom Wayland compositor | Too much RAM / disk / maintenance for 8 GB + HD 520 and a solo beginner. |
 
 Tkinter (MyOS) taught us the window-manager logic cheaply, but it looks dated

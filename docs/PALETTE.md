@@ -50,9 +50,10 @@ Riding along (audit findings):
 - `desktop/widgets/` staged into the ISO tree — the dconf already enabled
   `vixzen-widgets@vixzen.os`; the extension had never been copied (GNOME logged
   an error every login).
-- `background-logo@fedorahosted.org` (now enabled on the host) staged from the
-  host and **repointed at the Vixzen logo** as a 12% opacity wallpaper
-  watermark — the parity test passes and the Fedora mark stays scrubbed.
+- the upstream background-logo extension (now enabled on the host) staged
+  from the host and **repointed at the Vixzen logo** as a 12% opacity
+  wallpaper watermark — the parity test passes and the upstream mark stays
+  scrubbed.
 
 ## Launch, configure, disable, uninstall
 

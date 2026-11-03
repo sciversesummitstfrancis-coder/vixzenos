@@ -1,7 +1,7 @@
 #!/bin/bash
-# VixzenOS kernel identity — make the kernel present as VixzenOS, not Fedora.
+# VixzenOS kernel identity — make the kernel present as VixzenOS.
 #
-# This patches a kernel.spec so the Fedora dist tag ("fc44") never reaches the
+# This patches a kernel.spec so the upstream release tag never reaches the
 # running system. It is idempotent: run it as often as you like.
 #
 #   ./scripts/vixzen-kernel-identity.sh [kernel.spec] [--check]
@@ -31,8 +31,9 @@ fi
 
 MARKER="VixzenOS kernel identity"
 
-if [ "$CHECK_ONLY" -eq 0 ] && ! grep -q "$MARKER" "$SPEC"; then
-  cp -a "$SPEC" "$SPEC.before-vixzen-identity.bak"
+if [ "$CHECK_ONLY" -eq 0 ]; then
+  # Back up the pristine spec once; later runs are idempotent edits on top.
+  [ -f "$SPEC.before-vixzen-identity.bak" ] || cp -a "$SPEC" "$SPEC.before-vixzen-identity.bak"
   python3 - "$SPEC" <<'PY'
 import sys
 
@@ -42,10 +43,10 @@ marker = "VixzenOS kernel identity"
 block = """# ---------------------------------------------------------------------------
 # VixzenOS kernel identity
 #
-# The dist tag is the only Fedora marker that leaks into the running system:
-#   uname -r              -> 7.2.13-200.fc44.x86_64
-#   /lib/modules/<ver>    -> ...fc44...
-#   RPM NEVRA             -> kernel-7.2.13-200.fc44.x86_64
+# The RPM dist tag is the one marker that leaks into every runtime surface:
+#   uname -r              -> 7.2.13-200.vixzen.x86_64
+#   /lib/modules/<ver>    -> ...vixzen...
+#   RPM NEVRA             -> kernel-7.2.13-200.vixzen.x86_64
 # Override it here so this kernel presents as VixzenOS while keeping the
 # upstream configs, patches and build machinery intact.
 # ---------------------------------------------------------------------------
@@ -68,7 +69,7 @@ old = "KernelVer=%{specversion}-%{release}.%{_target_cpu}${Variant:++${Variant}}
 new = "KernelVer=%{specversion}-%{release}.%{_target_cpu}${Variant:++${Variant}}"
 text = text.replace(old, new)
 
-# Secure Boot SBAT metadata should not advertise Fedora either.
+# Secure Boot SBAT metadata should not advertise the upstream vendor either.
 if "%global sbat_suffix vixzen" not in text:
     anchor = """%if 0%{?fedora}
 %global sbat_suffix fedora
@@ -84,17 +85,31 @@ if "%global sbat_suffix vixzen" not in text:
     if anchor in text:
         text = text.replace(anchor, replacement, 1)
 
+# Package-level branding: what `rpm -qi kernel` shows the user.
+import re
+
+if re.search(r"^Summary: The Linux kernel$", text, re.M):
+    text = re.sub(r"^Summary: The Linux kernel$",
+                  "Summary: VixzenOS Linux kernel", text, count=1, flags=re.M)
+
+if not re.search(r"^Vendor:", text, re.M):
+    tag = "%define dist_bug_report_url https://github.com/sciversesummitstfrancis-coder/vixzenos/issues\n"
+    if tag in text:
+        text = text.replace(tag, tag + "Vendor: VixzenOS\nPackager: VixzenOS\n", 1)
+
 open(path, "w", encoding="utf-8").write(text)
 PY
-  echo "patched: $SPEC"
+  echo "ensured VixzenOS kernel identity: $SPEC"
 else
-  echo "already patched or check-only: $SPEC"
+  echo "check-only: $SPEC"
 fi
 
 # Show the identity the spec now produces.
 if command -v rpmspec >/dev/null; then
   echo "--- resulting kernel identity ---"
   rpmspec -q --qf '%{name}-%{version}-%{release}.%{arch}\n' "$SPEC" 2>/dev/null | head -n 1 || true
+  echo "--- package branding ---"
+  rpmspec -q --qf '%{summary}\n' "$SPEC" 2>/dev/null | head -n 1 | sed 's/^/summary: /' || true
   echo "--- expected uname -r ---"
   VER=$(rpmspec -q --qf '%{version}-%{release}.%{arch}\n' "$SPEC" 2>/dev/null | head -n 1 || true)
   [ -n "$VER" ] && echo "$VER" || echo "(rpmspec could not expand the spec)"

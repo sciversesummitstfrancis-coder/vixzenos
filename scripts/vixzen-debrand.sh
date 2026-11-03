@@ -1,9 +1,9 @@
 #!/bin/bash
-# Vixzen de-Fedora scrub — removes every visible Fedora brand from a system.
+# Vixzen debrand scrub — removes every visible upstream brand from a system.
 #
 # SAFETY: operates on a target root, never the live host by accident.
-#   Target an image/mounted tree:  VIXZEN_ROOT=/mnt/target bash de-fedora.sh
-#   Inside a chroot:                bash de-fedora.sh   (auto-detects /)
+#   Target an image/mounted tree:  VIXZEN_ROOT=/mnt/target bash vixzen-debrand.sh
+#   Inside a chroot:                bash vixzen-debrand.sh   (auto-detects /)
 #   Refuses to touch a live host unless VIXZEN_ROOT=/ is given explicitly.
 #
 # Removes (human-visible branding only):
@@ -22,15 +22,15 @@ if [ -z "$ROOT" ]; then
   if [ -f /etc/vixzen-release ] || [ -f /etc/debian_version ] || [ -f /usr/lib/os-release ]; then
     ROOT="/"
   else
-    echo "de-fedora: cannot detect a target root. Set VIXZEN_ROOT=/path/to/root" >&2
+    echo "vixzen-debrand: cannot detect a target root. Set VIXZEN_ROOT=/path/to/root" >&2
     exit 2
   fi
 elif [ "$ROOT" = "/" ] && [ -z "${VIXZEN_ALLOW_HOST:-}" ]; then
-  echo "de-fedora: refusing to modify a live host. Re-run with VIXZEN_ALLOW_HOST=1" >&2
+  echo "vixzen-debrand: refusing to modify a live host. Re-run with VIXZEN_ALLOW_HOST=1" >&2
   exit 2
 fi
 
-log(){ echo "[de-fedora] $*"; }
+log(){ echo "[vixzen-debrand] $*"; }
 P="$ROOT"
 
 # 1. background-logo extension paints the Fedora infinity logo on the lock

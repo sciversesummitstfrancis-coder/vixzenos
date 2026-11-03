@@ -60,7 +60,7 @@ copr-cli login
 ```
 
 `--publish` uploads every built RPM to the COPR project `vixzen/vixzenos`.
-COPR builds them for all Fedora versions and signs the repo.
+COPR builds them for the configured chroots and signs the repo.
 
 ## Client flow
 
@@ -103,9 +103,9 @@ $ ./scripts/vixzen-rpm-build.sh
 built vixzenos-apps / -cli / -cursor / -release / -theme
 
 $ dnf --repofrompath=vixzen-local,file:///tmp/vixzen-repo list --available 'vixzenos*'
-vixzenos-apps.noarch     0.3-1.fc44  vixzen-local
-vixzenos-cli.noarch      0.3-1.fc44  vixzen-local
-vixzenos-cursor.noarch   0.3-1.fc44  vixzen-local
-vixzenos-release.noarch  0.3-1.fc44  vixzen-local
-vixzenos-theme.noarch    0.3-1.fc44  vixzen-local
+vixzenos-apps.noarch     0.3-1.vixzen  vixzen-local
+vixzenos-cli.noarch      0.3-1.vixzen  vixzen-local
+vixzenos-cursor.noarch   0.3-1.vixzen  vixzen-local
+vixzenos-release.noarch  0.3-1.vixzen  vixzen-local
+vixzenos-theme.noarch    0.3-1.vixzen  vixzen-local
 ```

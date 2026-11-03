@@ -3,7 +3,7 @@
 Legend: ✅ done · 🔶 now · ⬜ next. Owner: AI / YOU / TOGETHER.
 
 ## M0 — Inspect & decide ✅ (AI)
-Host measured (i5-6200U, 8 GB, HD 520, Fedora 44, Wayland), stack chosen
+Host measured (i5-6200U, 8 GB, HD 520, RPM-based Linux, Wayland), stack chosen
 (GTK4+Libadwaita preview, GNOME extension shell, livemedia ISO). Doc: `docs/ARCHITECTURE.md`.
 
 ## M1 — Preview + identity ✅ (AI)
@@ -22,7 +22,7 @@ one-piece shell bar + attached menu + magnification (syntax-checked, API-
 proven, staged). Runtime proof needs one login (bar) — pending your call.
 
 ## M4 — ISO content complete ✅ (AI)
-- Stage transport, zero-Fedora boot, apps + bar + icons + themes + pins,
+- Stage transport, zero-upstream-branding boot, apps + bar + icons + themes + pins,
   login-screen theme block (simulated-verified) — `./build-vixzenos.sh --check-only` green.
 
 ## M5 — First bootable ISO ✅ dock ISO boots to login (TOGETHER)
@@ -33,7 +33,7 @@ proven, staged). Runtime proof needs one login (bar) — pending your call.
 - Still open: desktop screenshot after login, hardware USB test (→ M6).
 
 ## M6 — Real hardware ⬜ (YOU, AI on call)
-- USB Live boot on your Dell (try-without-install, Fedora untouched): Wi-Fi, sound, display, suspend
+- USB Live boot on your Dell (try-without-install, host install untouched): Wi-Fi, sound, display, suspend
 - Second machine if available (driver check); Secure Boot on/off check
 - Exit: hardware checklist green in `docs/HARDWARE.md` (to be created).
 
@@ -46,7 +46,7 @@ proven, staged). Runtime proof needs one login (bar) — pending your call.
   and `vix update history` report status.
 - Pending (needs your accounts): create the COPR project `vixzen/vixzenos`,
   then `./scripts/vixzen-rpm-build.sh --publish`. See `docs/RELEASES.md`.
-- Also done: de-Fedora scrub (`scripts/de-fedora.sh`) runs in every build and
+- Also done: debrand scrub (`scripts/vixzen-debrand.sh`) runs in every build and
   in the release package; `.gitignore` keeps build output out of GitHub.
 
 ## M8 — Refinement (later)

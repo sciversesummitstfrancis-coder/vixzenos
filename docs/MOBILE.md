@@ -29,7 +29,7 @@ already target. No new hardware, no money, no risk to the ISO.
 
 ### Checklist (each step done = checked, with the date)
 
-- [ ] Install `qemu-system-aarch64` and get a Fedora aarch64 cloud image
+- [ ] Install `qemu-system-aarch64` and get an aarch64 cloud image for the package base
       booting headless (SSH in).
 - [ ] In the Arm VM: `dnf install python3-gobject gtk4 libadwaita` and run
       `apps/file-manager/vixzen_files.py --smoke` (or an equivalent headless
@@ -40,7 +40,7 @@ already target. No new hardware, no money, no risk to the ISO.
 - [ ] Record the ARM behavior deltas found (missing packages, API versions,
       anything that needed a tweak) in a notes section below.
 - [ ] Install Debian arm64 + repeat one app smoke, to confirm the app layer is
-      not accidentally Fedora-tied.
+      not accidentally tied to the upstream base.
 
 **Pass condition:** at least one Vixzen app runs its smoke test on ARM Linux
 unmodified, and we can list exactly which pieces were not port-free.

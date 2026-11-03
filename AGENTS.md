@@ -30,7 +30,7 @@ All gitignored. Never commit them, never read them as source of truth.
 |---|---|
 | Apps | Python 3.14 + GTK4 / Libadwaita (PyGObject), pure stdlib otherwise |
 | Shell | GNOME Shell extension (JS) — `desktop/shell/` |
-| ISO / OS | VixzenOS kickstart + livemedia-creator/lorax on a Fedora-compatible package base |
+| ISO / OS | VixzenOS kickstart + livemedia-creator/lorax on an RPM-based package base (exact boundary: `docs/KERNEL.md`) |
 | Tooling | bash scripts |
 | Website | vanilla HTML/CSS/JS (no framework, no build step) |
 
@@ -126,9 +126,9 @@ They insert repo-root `shared/` and `preview/src/` onto `sys.path`, and isolate
    file mock listing `~` read-only.
 3. **Any performance claim needs a measurement** against `docs/PERFORMANCE.md`
    budgets. Do not assert "faster" or "lighter" without a number.
-4. **No proprietary assets.** Original artwork only; upstream Fedora/GNOME remain
+4. **No proprietary assets.** Original artwork only; upstream projects remain
    theirs and the project is unaffiliated — do not ship or imply endorsement.
-5. **`scripts/de-fedora.sh` exists to scrub Fedora branding.** Keep changes
+5. **`scripts/vixzen-debrand.sh` exists to scrub upstream branding.** Keep changes
    de-brandable.
 6. **Design tokens are fixed** (`docs/ARCHITECTURE.md` §3): accent blue
    `#3B82F6` (system `accent-color='blue'`), cyan `#06B6D4`, radius 10px, 8pt spacing grid,

@@ -16,7 +16,7 @@
 6. Writes `build/build.log`, prints ISO path + size, runs `isoinfo` validation.
 
 ## Kickstart
-`packaging/vixzenos.ks` starts from a Fedora-compatible package base, then writes
+`packaging/vixzenos.ks` starts from an RPM-based package base, then writes
 the VixzenOS identity (`/etc/os-release`, `/etc/vixzen-release`) and installs the
 VixzenOS kernel release tag. It adds:
 `gtk4`, `libadwaita`, `python3-gobject`, Vixzen branding/assets, and the

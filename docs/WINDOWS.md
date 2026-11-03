@@ -27,5 +27,5 @@ Windows wheels, and the app uses zero Linux-only APIs.
 - SmartScreen may flag the unsigned script on first launch — "More info →
   Run anyway". A signed installer is future work, not planned solo.
 - Performance: QtWebEngine downloads its own Chromium — no extra install.
-- Not tested by us on Windows yet (we build on Fedora): if a button
+- Not tested by us on Windows yet (we build on Linux): if a button
   misbehaves, tell us the exact click + any console text.

@@ -1,6 +1,6 @@
 # VixzenOS Hardware Checklist (M6) — Dell Latitude 3570 first, then others
 
-Boot the ISO on real hardware (try-without-install; Fedora install untouched).
+Boot the ISO on real hardware (try-without-install; host install untouched).
 Mark each `[ ]` as you go. Target machine: i5-6200U, 8 GB RAM, Intel HD 520.
 
 ## 1. Machine under test
@@ -14,7 +14,7 @@ Mark each `[ ]` as you go. Target machine: i5-6200U, 8 GB RAM, Intel HD 520.
 
 - [ ] GRUB menu shows "Start VixzenOS" first and boots without keys
 - [ ] No emergency mode, no dracut errors (Esc during splash shows log)
-- [ ] Boot splash shows Vixzen mark (not Fedora), no text errors
+- [ ] Boot splash shows the Vixzen mark (no upstream branding), no text errors
 - [ ] Time to login/desktop: ............ sec
 
 ## 3. Desktop (liveuser, no install)
@@ -38,7 +38,7 @@ Mark each `[ ]` as you go. Target machine: i5-6200U, 8 GB RAM, Intel HD 520.
 
 - [ ] Second machine (if available): model ............, result ............
 - [ ] Secure Boot ON boot: works / fails (note exact error): ............
-- [ ] Install-to-disk dry run (spare disk/VM only — never the Fedora disk)
+- [ ] Install-to-disk dry run (spare disk/VM only — never the host disk)
 
 ## 6. Sign-off
 
